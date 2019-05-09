@@ -8,5 +8,7 @@ Temp/
 Packages/
 Logs/
 Library/
-*.meta
 CaptureFood.csproj
+.vs
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp.csproj

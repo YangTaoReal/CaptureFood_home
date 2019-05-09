@@ -1,18 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class GameCtrl : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static GameCtrl _Ins;
 
-    // Update is called once per frame
+    public FoodCtrl foodCtrl;
+    void Awake()
+    {
+        _Ins = this;
+        InitGame();
+    }
+    public EventCenter EC = new EventCenter();
+
+
+    private void InitGame()
+    {
+        DOTween.defaultEaseType = Ease.Linear;
+        StartGame();
+    }
     void Update()
     {
         
     }
+
+    public void StartGame()
+    {
+        foodCtrl.CreateOneFood(foodCtrl.GetOneFoodData());
+    }
+
 }
