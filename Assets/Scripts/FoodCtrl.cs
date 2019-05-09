@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class FoodCtrl : MonoBehaviour
@@ -30,20 +31,37 @@ public class FoodCtrl : MonoBehaviour
 
     public void CreateOneFood(FoodData foodData)
     {
-        var requet = Resources.LoadAsync("Foods/Food_" + foodData.foodID);
-        var obj = Instantiate(requet.asset,bornTR.position,Quaternion.identity,transform) as GameObject;
-        var food = obj.GetComponent<FoodItem>();
-        if (null == food)
-            food = obj.AddComponent<FoodItem>();
+        bool isFind = false;
+        FoodItem food = null;
+        
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            if(foodList[i].isUsing == false)
+            {
+                food = foodList[i];
+                isFind = true;
+                break;
+            }
+        }
+        if (!isFind)
+        {
+            var requet = Resources.LoadAsync("Foods/Food_" + foodData.foodID);
+            var obj = Instantiate(requet.asset, bornTR.position, Quaternion.identity, transform) as GameObject;food = obj.GetComponent<FoodItem>();
+            //Debug.Log($"bornPos:{bornTR.position},recttran:{(bornTR as RectTransform).anchoredPosition}");
+            (obj.transform as RectTransform).anchoredPosition = (bornTR as RectTransform).anchoredPosition;
+            if (null == food)
+                food = obj.AddComponent<FoodItem>();
+            foodList.Add(food);
+        }
         food.InitItem(foodData);
-        foodList.Add(food);
     }
 
     public FoodData GetOneFoodData()
     {
         FoodData food = new FoodData();
         food.foodID = Random.Range(1000,1005);
-        food.moveSpeed = 2f;
+        food.moveSpeed = 3f;
+        food.state = FoodState.Free;
         return food;
     }
 
@@ -69,8 +87,22 @@ public class FoodCtrl : MonoBehaviour
         {
             for (int i = 0; i < foodList.Count; i++)
             {
-                Vector3 curr = foodList[i].transform.position;
-                foodList[i].transform.position = Vector3.MoveTowards(curr, resetTR.position, Time.deltaTime * foodList[i].foodInfo.moveSpeed);
+                FoodItem item = foodList[i];
+                if (!item.isUsing)
+                    return;
+                if (item.foodInfo.state == FoodState.Free)
+                {
+                    //item.isMoving = true; 
+                    Vector3 curr = foodList[i].transform.position;
+
+                    float t = Vector3.Distance(curr, resetTR.position) / item.foodInfo.moveSpeed;
+                    //Debug.Log($"时间t:{t}");
+                    //item.transform.DOMove(resetTR.position, t).SetEase(Ease.Linear).OnComplete(() =>
+                    //{
+                    //    item.ResetItem(bornTR.position);
+                    //});
+                    item.transform.position = Vector3.MoveTowards(curr, resetTR.position, Time.deltaTime * foodList[i].foodInfo.moveSpeed);
+                }
             }
         }
     }
@@ -78,7 +110,9 @@ public class FoodCtrl : MonoBehaviour
     #region  订阅事件相关
     private void OnTriggerBorn()
     {
+        //Debug.Log($"生成food");
         CreateOneFood(GetOneFoodData());
+
     }
 
 

@@ -123,6 +123,9 @@ GameObject:
   - component: {fileID: 12220334}
   - component: {fileID: 12220336}
   - component: {fileID: 12220335}
+  - component: {fileID: 12220338}
+  - component: {fileID: 12220337}
+  - component: {fileID: 12220339}
   m_Layer: 5
   m_Name: CheckPart
   m_TagString: Untagged
@@ -186,6 +189,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 12220333}
   m_CullTransparentMesh: 0
+--- !u!61 &12220337
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12220333}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 84.3}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 91.97, y: 67.2}
+  m_EdgeRadius: 0
+--- !u!50 &12220338
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12220333}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &12220339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12220333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82ea7cc73b0c847cca731ae48bc94006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &296003831
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,8 +275,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1280054108}
   - {fileID: 2092555241}
+  - {fileID: 1280054108}
   m_Father: {fileID: 333852534}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -602,7 +664,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 1450, y: 0}
+  m_AnchoredPosition: {x: 1105.2, y: 0}
   m_SizeDelta: {x: 59.999878, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &597461102
@@ -642,6 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dd8a0d376a44336972fd133f897237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodCtrl: {fileID: 2092555242}
 --- !u!4 &700487027
 Transform:
   m_ObjectHideFlags: 0
@@ -668,6 +731,7 @@ GameObject:
   - component: {fileID: 804539428}
   - component: {fileID: 804539427}
   - component: {fileID: 804539426}
+  - component: {fileID: 804539429}
   m_Layer: 5
   m_Name: TriggerBorn
   m_TagString: BornTrigger
@@ -691,7 +755,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 869, y: 0}
+  m_AnchoredPosition: {x: 669, y: 0}
   m_SizeDelta: {x: 30, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &804539426
@@ -757,6 +821,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 804539424}
   m_CullTransparentMesh: 0
+--- !u!50 &804539429
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804539424}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1014454445
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,7 +919,7 @@ RectTransform:
   m_Children:
   - {fileID: 442185635}
   m_Father: {fileID: 296003832}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -854,8 +939,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handImg: {fileID: 442185636}
+  checkPart: {fileID: 12220335}
   upSpeed: 50
   downSpeed: 600
+  isCaptured: 0
 --- !u!114 &1280054110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1142,7 +1229,7 @@ RectTransform:
   - {fileID: 1014454446}
   - {fileID: 804539425}
   m_Father: {fileID: 296003832}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1161,8 +1248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d94dad8503d0146c6ae7cc0f7fe4c339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bornTR: {fileID: 0}
-  resetTR: {fileID: 0}
+  bornTR: {fileID: 597461101}
+  resetTR: {fileID: 1014454446}
+  bornTriggerTR: {fileID: 804539425}
   minDis: 400
   foodList: []
   isCanCreateFood: 0

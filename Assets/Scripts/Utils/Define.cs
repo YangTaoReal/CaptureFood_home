@@ -11,6 +11,11 @@ public class FoodData
 {
     public int foodID;
     public float moveSpeed;
+    public FoodState state;
 }
 
-
+public enum FoodState
+{
+    Free,
+    Captured,   // 被抓住
+}

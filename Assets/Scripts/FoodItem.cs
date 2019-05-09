@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class FoodItem : MonoBehaviour
 {
+    [SerializeField]
     public FoodData foodInfo;
+
+    public bool isUsing;
+    public bool isMoving;
     void Start()
     {
         
@@ -18,16 +22,31 @@ public class FoodItem : MonoBehaviour
 
     public void InitItem(FoodData data)
     {
+        isUsing = true;
         foodInfo = data;
-
+        gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag.Equals("BornTrigger"))
         {
-            Debug.Log($"触发生成");
             GameCtrl._Ins.EC.OnTriggerBornFodd?.Invoke();
         }
+    }
+
+    public void ResetItem(Vector3 pos)
+    {
+        isUsing = false;
+        gameObject.SetActive(false);
+        transform.position = pos;
+        isMoving = false;
+    }
+
+    public void OnCaptured()
+    {
+        // 被抓住
+        foodInfo.state = FoodState.Captured;
+        
     }
 }

@@ -7,4 +7,6 @@ public class EventCenter
 {
     public Action OnPress = () => { };
     public Action OnTriggerBornFodd = () => { };
+    public Action<GameObject> OnCaptureFood = (obj)=>{};
+
 }

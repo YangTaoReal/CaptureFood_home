@@ -29,6 +29,8 @@ public class GameCtrl : MonoBehaviour
     public void StartGame()
     {
         foodCtrl.CreateOneFood(foodCtrl.GetOneFoodData());
+        foodCtrl.StartMoveFoods();
+        Player._Ins.InitPlayer();
     }
 
 }
