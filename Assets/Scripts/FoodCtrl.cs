@@ -48,11 +48,11 @@ public class FoodCtrl : MonoBehaviour
             var requet = Resources.LoadAsync("Foods/Food_" + foodData.foodID);
             var obj = Instantiate(requet.asset, bornTR.position, Quaternion.identity, transform) as GameObject;food = obj.GetComponent<FoodItem>();
             //Debug.Log($"bornPos:{bornTR.position},recttran:{(bornTR as RectTransform).anchoredPosition}");
-            (obj.transform as RectTransform).anchoredPosition = (bornTR as RectTransform).anchoredPosition;
             if (null == food)
                 food = obj.AddComponent<FoodItem>();
             foodList.Add(food);
         }
+        (food.transform as RectTransform).anchoredPosition = (bornTR as RectTransform).anchoredPosition;
         food.InitItem(foodData);
     }
 
@@ -88,8 +88,8 @@ public class FoodCtrl : MonoBehaviour
             for (int i = 0; i < foodList.Count; i++)
             {
                 FoodItem item = foodList[i];
-                if (!item.isUsing)
-                    return;
+                //if (!item.isUsing)
+                    //return;
                 if (item.foodInfo.state == FoodState.Free)
                 {
                     //item.isMoving = true; 
@@ -102,6 +102,10 @@ public class FoodCtrl : MonoBehaviour
                     //    item.ResetItem(bornTR.position);
                     //});
                     item.transform.position = Vector3.MoveTowards(curr, resetTR.position, Time.deltaTime * foodList[i].foodInfo.moveSpeed);
+                    if(item.transform.position == resetTR.position)
+                    {
+                        item.ResetItem(bornTR.position);
+                    }
                 }
             }
         }

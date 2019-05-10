@@ -12,3 +12,4 @@ CaptureFood.csproj
 .vs
 Assembly-CSharp-Editor.csproj
 Assembly-CSharp.csproj
+CaptureFood.Editor.csproj

@@ -19,7 +19,7 @@ public class GameCtrl : MonoBehaviour
     private void InitGame()
     {
         DOTween.defaultEaseType = Ease.Linear;
-        StartGame();
+        //StartGame();
     }
     void Update()
     {
