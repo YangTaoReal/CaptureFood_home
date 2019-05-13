@@ -19,7 +19,7 @@ public class GameCtrl : MonoBehaviour
     private void InitGame()
     {
         DOTween.defaultEaseType = Ease.Linear;
-        //StartGame();
+        StartGame();
     }
     void Update()
     {
@@ -28,8 +28,8 @@ public class GameCtrl : MonoBehaviour
 
     public void StartGame()
     {
-        foodCtrl.CreateOneFood(foodCtrl.GetOneFoodData());
-        foodCtrl.StartMoveFoods();
+        Debug.Log($"start game");
+        foodCtrl.StartGame();
         Player._Ins.InitPlayer();
     }
 

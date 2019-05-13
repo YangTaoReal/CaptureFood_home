@@ -16,8 +16,7 @@ public class FoodItem : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
+    { 
     }
 
     public void InitItem(FoodData data)
@@ -25,6 +24,7 @@ public class FoodItem : MonoBehaviour
         isUsing = true;
         foodInfo = data;
         gameObject.SetActive(true);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

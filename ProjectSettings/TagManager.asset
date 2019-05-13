@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BornTrigger
   - Food
+  - Map
   layers:
   - Default
   - TransparentFX

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class FoodCtrl : MonoBehaviour
 {
-
     public Transform bornTR;
     public Transform resetTR;
     public Transform bornTriggerTR;
@@ -29,11 +28,15 @@ public class FoodCtrl : MonoBehaviour
 
     }
 
+    public void InitFoodCtrl()
+    {
+
+    }
+
     public void CreateOneFood(FoodData foodData)
     {
         bool isFind = false;
         FoodItem food = null;
-        
         for (int i = 0; i < foodList.Count; i++)
         {
             if(foodList[i].isUsing == false)
@@ -83,32 +86,32 @@ public class FoodCtrl : MonoBehaviour
 
     private void Update()
     {
-        if(isCanMove)
-        {
-            for (int i = 0; i < foodList.Count; i++)
-            {
-                FoodItem item = foodList[i];
-                //if (!item.isUsing)
-                    //return;
-                if (item.foodInfo.state == FoodState.Free)
-                {
-                    //item.isMoving = true; 
-                    Vector3 curr = foodList[i].transform.position;
+        //if(isCanMove)
+        //{
+        //    for (int i = 0; i < foodList.Count; i++)
+        //    {
+        //        FoodItem item = foodList[i];
+        //        //if (!item.isUsing)
+        //            //return;
+        //        if (item.foodInfo.state == FoodState.Free)
+        //        {
+        //            //item.isMoving = true; 
+        //            Vector3 curr = foodList[i].transform.position;
 
-                    float t = Vector3.Distance(curr, resetTR.position) / item.foodInfo.moveSpeed;
-                    //Debug.Log($"时间t:{t}");
-                    //item.transform.DOMove(resetTR.position, t).SetEase(Ease.Linear).OnComplete(() =>
-                    //{
-                    //    item.ResetItem(bornTR.position);
-                    //});
-                    item.transform.position = Vector3.MoveTowards(curr, resetTR.position, Time.deltaTime * foodList[i].foodInfo.moveSpeed);
-                    if(item.transform.position == resetTR.position)
-                    {
-                        item.ResetItem(bornTR.position);
-                    }
-                }
-            }
-        }
+        //            float t = Vector3.Distance(curr, resetTR.position) / item.foodInfo.moveSpeed;
+        //            //Debug.Log($"时间t:{t}");
+        //            //item.transform.DOMove(resetTR.position, t).SetEase(Ease.Linear).OnComplete(() =>
+        //            //{
+        //            //    item.ResetItem(bornTR.position);
+        //            //});
+        //            item.transform.position = Vector3.MoveTowards(curr, resetTR.position, Time.deltaTime * foodList[i].foodInfo.moveSpeed);
+        //            if(item.transform.position == resetTR.position)
+        //            {
+        //                item.ResetItem(bornTR.position);
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     #region  订阅事件相关
@@ -121,4 +124,12 @@ public class FoodCtrl : MonoBehaviour
 
 
     #endregion
+
+    public void StartGame()
+    {
+        //currMapSpline = GameObject.FindWithTag("Map").transform.GetChild(0).GetComponent<CurvySpline>();
+        //Debug.Log($"CurrMapSpline = {CurrMapSpline}");
+        CreateOneFood(GetOneFoodData());
+        //StartMoveFoods();
+    }
 }
