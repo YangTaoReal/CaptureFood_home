@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BansheeGz.BGSpline.Components;
 using UnityEngine;
 
 public class FoodItem : MonoBehaviour
@@ -9,6 +10,10 @@ public class FoodItem : MonoBehaviour
 
     public bool isUsing;
     public bool isMoving;
+
+    public BGCcCursorChangeLinear cursorLinear;
+    public BGCcCursorObjectTranslate cursorTranslate;
+    public BGCcCursor cursor;
     void Start()
     {
         
@@ -19,12 +24,33 @@ public class FoodItem : MonoBehaviour
     { 
     }
 
-    public void InitItem(FoodData data)
+    public void InitItem()
+    {
+        // 创建出来的item 需要创建cursor之间的关联
+        cursor = GameCtrl._Ins.CreateCursor();
+        var list = GameCtrl._Ins.mapCurve.GetComponents<BGCcCursor>();
+        cursorTranslate = GameCtrl._Ins.CreateCursorTranslate(list[list.Length - 1]);
+        cursorLinear = GameCtrl._Ins.CreateCursorLinear(list[list.Length - 1]);
+        cursorTranslate.SetParent(cursor);
+        cursorLinear.SetParent(cursor);
+        //cursorLinear.OverflowControl = BGCcCursorChangeLinear.OverflowControlEnum.Stop;
+        cursorTranslate.ObjectToManipulate = transform;
+        cursorLinear.PointReached += (sender, e) => {
+
+            if(e.PointIndex == GameCtrl._Ins.mapCurve.PointsCount - 1)
+            {
+                //Debug.Log($"到达点的index = {e.PointIndex}");
+                cursorLinear.Speed = 0;
+                ResetItem();
+            }
+        };
+    }
+    public void RefreshItem(FoodData data)
     {
         isUsing = true;
         foodInfo = data;
         gameObject.SetActive(true);
-
+        cursorLinear.Speed = 5;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,11 +61,10 @@ public class FoodItem : MonoBehaviour
         }
     }
 
-    public void ResetItem(Vector3 pos)
+    public void ResetItem()
     {
         isUsing = false;
         gameObject.SetActive(false);
-        transform.position = pos;
         isMoving = false;
     }
 

@@ -1,7 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BansheeGz.BGSpline.Curve;
 using DG.Tweening;
+using BansheeGz;
 using UnityEngine;
+using BansheeGz.BGSpline.Components;
+using UnityEditor;
 
 public class FoodCtrl : MonoBehaviour
 {
@@ -14,7 +18,7 @@ public class FoodCtrl : MonoBehaviour
     public List<FoodItem> foodList = new List<FoodItem>();
 
     private Vector3 currPos;
-    private bool isCanMove;
+    private bool isCanBorn;
     public bool isCanCreateFood;
 
     private void OnEnable()
@@ -33,7 +37,7 @@ public class FoodCtrl : MonoBehaviour
 
     }
 
-    public void CreateOneFood(FoodData foodData)
+    public FoodItem CreateOneFood(FoodData foodData)
     {
         bool isFind = false;
         FoodItem food = null;
@@ -50,13 +54,25 @@ public class FoodCtrl : MonoBehaviour
         {
             var requet = Resources.LoadAsync("Foods/Food_" + foodData.foodID);
             var obj = Instantiate(requet.asset, bornTR.position, Quaternion.identity, transform) as GameObject;food = obj.GetComponent<FoodItem>();
-            //Debug.Log($"bornPos:{bornTR.position},recttran:{(bornTR as RectTransform).anchoredPosition}");
+            //Debug.Log("bornPos:{bornTR.position},recttran:{(bornTR as RectTransform).anchoredPosition}");
             if (null == food)
                 food = obj.AddComponent<FoodItem>();
+            food.InitItem();
             foodList.Add(food);
         }
         (food.transform as RectTransform).anchoredPosition = (bornTR as RectTransform).anchoredPosition;
-        food.InitItem(foodData);
+        food.RefreshItem(foodData);
+        //var cursorTr = mapCurve.GetComponent<BGCcCursorObjectTranslate>();
+        //var linner = mapCurve.GetComponent<BGCcCursorChangeLinear>();
+        //cursorTr.ObjectToManipulate = food.transform;
+
+        //mapCurve
+        //var cursor = mapCurve.GetComponent<BGCcCursor>();
+        //var und1 = Undo.AddComponent<BGCcCursorObjectTranslate>(mapCurve.gameObject);
+        //var und2 = Undo.AddComponent<BGCcCursorObjectTranslate>(mapCurve.gameObject);
+        //var list = mapCurve.GetComponents<BGCcCursorObjectTranslate>();
+        //Debug.Log("list.Count = {list.Length},und.name = {und1}");
+        return food;
     }
 
     public FoodData GetOneFoodData()
@@ -70,12 +86,12 @@ public class FoodCtrl : MonoBehaviour
 
     public void StopFoods()
     {
-        isCanMove = false;
+
     }
 
     public void StartMoveFoods()
     {
-        isCanMove = true;
+
     }
 
     // 检测是否超过了边界
@@ -99,7 +115,7 @@ public class FoodCtrl : MonoBehaviour
         //            Vector3 curr = foodList[i].transform.position;
 
         //            float t = Vector3.Distance(curr, resetTR.position) / item.foodInfo.moveSpeed;
-        //            //Debug.Log($"时间t:{t}");
+        //            //Debug.Log("时间t:{t}");
         //            //item.transform.DOMove(resetTR.position, t).SetEase(Ease.Linear).OnComplete(() =>
         //            //{
         //            //    item.ResetItem(bornTR.position);
@@ -117,8 +133,8 @@ public class FoodCtrl : MonoBehaviour
     #region  订阅事件相关
     private void OnTriggerBorn()
     {
-        //Debug.Log($"生成food");
-        CreateOneFood(GetOneFoodData());
+        //Debug.Log("生成food");
+        //CreateOneFood(GetOneFoodData());
 
     }
 
@@ -128,8 +144,25 @@ public class FoodCtrl : MonoBehaviour
     public void StartGame()
     {
         //currMapSpline = GameObject.FindWithTag("Map").transform.GetChild(0).GetComponent<CurvySpline>();
-        //Debug.Log($"CurrMapSpline = {CurrMapSpline}");
+        //Debug.Log("CurrMapSpline = {CurrMapSpline}");
         CreateOneFood(GetOneFoodData());
         //StartMoveFoods();
+        TimerUtil.SetTimeOut(1f,()=> {
+            CreateOneFood(GetOneFoodData());
+        },-1);
+        isCanBorn = true;
+        //StartCoroutine(StartBornFood());
+    }
+
+    // 开始每隔一段时间生成一个食物，食物沿着曲线运动
+    IEnumerator StartBornFood()
+    {
+        CreateOneFood(GetOneFoodData());
+        while(isCanBorn)
+        {
+            yield return new WaitForSeconds(1f);
+            CreateOneFood(GetOneFoodData());
+        }
+        yield return null;
     }
 }

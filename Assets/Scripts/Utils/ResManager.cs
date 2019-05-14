@@ -10,7 +10,7 @@ public class ResManager : MonoBehaviour
     private void Awake()
     {
         _Ins = this;
-        Debug.Log($"ResMana Awake");
+        Debug.Log("ResMana Awake");
     }
 
     public Sprite LoadSpriteAsync(string name)

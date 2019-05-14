@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
 
     public void OnPointDown()
     {
-        //Debug.Log($"按下.....");
+        //Debug.Log("按下.....");
         isPress = true;
     }
 
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
 
     public void OnPress()
     {
-        //Debug.Log($"press中");
+        //Debug.Log("press中");
         //if (!isCaptured)
             //return;
         var size = handImg.rectTransform.sizeDelta;
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     public void ComeBack(Action CallBack = null)
     {
         float t = (handImg.rectTransform.sizeDelta.y - sizeData.y) / downSpeed;
-        //Debug.Log($"结束press,time:{t}");
+        //Debug.Log("结束press,time:{t}");
         handImg.rectTransform.DOSizeDelta(sizeData, t).OnComplete(()=> {
 
             isCaptured = false;
@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
         if (!isCaptured)
         {
             var item =obj.GetComponent<FoodItem>();
-            Debug.Log($"抓住了obj:{obj.name}");
+            Debug.Log("抓住了obj:{obj.name}");
             isCaptured = true;
             isPress = false;
             item.transform.SetParent(checkPart.transform);
