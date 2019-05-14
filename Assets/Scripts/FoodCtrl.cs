@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using BansheeGz.BGSpline.Curve;
 using DG.Tweening;
-using BansheeGz;
 using UnityEngine;
-using BansheeGz.BGSpline.Components;
 using UnityEditor;
 
 public class FoodCtrl : MonoBehaviour
