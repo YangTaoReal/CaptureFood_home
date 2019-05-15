@@ -12,4 +12,11 @@ public class CheckPart : MonoBehaviour
             GameCtrl._Ins.EC.OnCaptureFood?.Invoke(collision.gameObject);
         }
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Food"))
+        {
+            GameCtrl._Ins.EC.OnCaptureFood?.Invoke(collision.gameObject);
+        }
+    }
 }

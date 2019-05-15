@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SWS;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class FoodItem : MonoBehaviour
 {
@@ -8,8 +11,11 @@ public class FoodItem : MonoBehaviour
     public FoodData foodInfo;
 
     public bool isUsing;
-    public bool isMoving;
-
+    //public bool isMoving;
+    public splineMove splineMove;
+    public BoxCollider2D boxcollider;
+    public Image foodImg;
+    public float speed = 5;
     void Start()
     {
         
@@ -22,31 +28,40 @@ public class FoodItem : MonoBehaviour
 
     public void InitItem()
     {
-        // 创建出来的item 需要创建cursor之间的关联
-        //cursor = GameCtrl._Ins.CreateCursor();
-        //var list = GameCtrl._Ins.mapCurve.GetComponents<BGCcCursor>();
-        //cursorTranslate = GameCtrl._Ins.CreateCursorTranslate(list[list.Length - 1]);
-        //cursorLinear = GameCtrl._Ins.CreateCursorLinear(list[list.Length - 1]);
-        //cursorTranslate.SetParent(cursor);
-        //cursorLinear.SetParent(cursor);
-        ////cursorLinear.OverflowControl = BGCcCursorChangeLinear.OverflowControlEnum.Stop;
-        //cursorTranslate.ObjectToManipulate = transform;
-        //cursorLinear.PointReached += (sender, e) => {
+        splineMove = GetComponent<splineMove>();
+        if (null == splineMove)
+            splineMove = gameObject.AddComponent<splineMove>();
+        boxcollider = GetComponent<BoxCollider2D>();
+        foodImg = GetComponent<Image>();
+        splineMove.pathContainer = GameCtrl._Ins.mapCurve;
+        splineMove.speed = speed;
+        splineMove.pathMode = DG.Tweening.PathMode.TopDown2D;
+        splineMove.loopType = splineMove.LoopType.loop;
+        //Debug.Log($"{transform.name} = {transform.position},vector[0]:{splineMove.pathContainer.GetPathPoints()[0]}");
+        //transform.position = splineMove.pathContainer.GetPathPoints()[0];
+        //Debug.Log($"{transform.name} = {transform.position},vector[0]:{splineMove.pathContainer.GetPathPoints()[0]}");
+        splineMove.StartMove();     // 事件必须在 startMove() 调用了在添加
+        UnityEvent myEvent = splineMove.events[splineMove.events.Count - 1];
+        myEvent.RemoveAllListeners();
+        myEvent.AddListener(()=> {
 
-        //    if(e.PointIndex == GameCtrl._Ins.mapCurve.PointsCount - 1)
-        //    {
-        //        //Debug.Log($"到达点的index = {e.PointIndex}");
-        //        cursorLinear.Speed = 0;
-        //        ResetItem();
-        //    }
-        //};
+            //Debug.Log($"到达曲线终点,pointIndex = {splineMove.events.Count - 1}");
+            ResetItem();
+        });
+
+        
     }
+
     public void RefreshItem(FoodData data)
     {
+        foodImg.sprite = Resources.Load<Sprite>("UI/" + data.foodID);
         isUsing = true;
         foodInfo = data;
         gameObject.SetActive(true);
-        //cursorLinear.Speed = 5;
+        splineMove.enabled = true;
+        boxcollider.enabled = true;
+        splineMove.speed = speed;
+        splineMove.StartMove();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -61,13 +76,24 @@ public class FoodItem : MonoBehaviour
     {
         isUsing = false;
         gameObject.SetActive(false);
-        isMoving = false;
+        splineMove.speed = 0;
+        transform.SetParent(GameCtrl._Ins.foodCtrl.transform);
+        foodInfo.state = FoodState.Free;
+
     }
 
     public void OnCaptured()
     {
         // 被抓住
         foodInfo.state = FoodState.Captured;
-        
+        splineMove.Stop();
+        splineMove.enabled = false;
+        boxcollider.enabled = false;
+        //splineMove.speed = 0;
+        //splineMove.Stop();
     }
+
+    #region   检测事件
+
+    #endregion
 }

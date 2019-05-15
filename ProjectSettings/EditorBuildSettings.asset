@@ -5,52 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 52412965a7bcb48be834622398e4745e
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveDemo.unity
-    guid: 8800f51ec9c6b754a8df17b14a2c6ff3
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveDemo2.unity
-    guid: f9c119faa3d242b45ba786dfe2e3f8a8
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveMainMenu.unity
-    guid: f610a1fed574e58438e8d9d13506a00d
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestCcChangeCursorLinear.unity
-    guid: 033171da8db1994499ead13b8ec05dc0
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestClosestPoint.unity
-    guid: ce52d115c270eef42bc0891ccdb4d2e8
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestComponents.unity
-    guid: cfc6f54abf0c59a44a0e227bba8eee52
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestCustomFields.unity
-    guid: bf8a28d06b5552f418492e2816f17f9a
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestMath.unity
-    guid: 4a340a876dfa92848aa868ed979eff31
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestPerformance.unity
-    guid: 6f95d49a695ede441b1dc953ab80ccea
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestPointsMode.unity
-    guid: 73541577b3f697c44a11313a118a5cdf
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestPointsTransforms.unity
-    guid: 4f9c252eb9b86c045abec185eeaf56cb
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestRuntime.unity
-    guid: 2cc6fac9de9cc1c4198b9a986f2ced0e
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestRuntimeCustomFields.unity
-    guid: 069231f22cd3fdd4e80459175f290597
-  - enabled: 1
-    path: Assets/Third_Party/BansheeGz/BGCurve/Examples/BGCurveTestSnapping.unity
-    guid: e960b8306460399409434b1280f8c9b0
   m_configObjects: {}

@@ -40,7 +40,7 @@ public class FoodCtrl : MonoBehaviour
         FoodItem food = null;
         for (int i = 0; i < foodList.Count; i++)
         {
-            if(foodList[i].isUsing == false)
+            if(foodList[i].isUsing == false && foodList[i].foodInfo.state == FoodState.Free)
             {
                 food = foodList[i];
                 isFind = true;
@@ -49,33 +49,22 @@ public class FoodCtrl : MonoBehaviour
         }
         if (!isFind)
         {
-            var requet = Resources.LoadAsync("Foods/Food_" + foodData.foodID);
-            var obj = Instantiate(requet.asset, bornTR.position, Quaternion.identity, transform) as GameObject;food = obj.GetComponent<FoodItem>();
+            var requet = Resources.Load("Foods/FoodItem");
+            var obj = Instantiate(requet, bornTR.position, Quaternion.identity, transform) as GameObject;food = obj.GetComponent<FoodItem>();
             //Debug.Log("bornPos:{bornTR.position},recttran:{(bornTR as RectTransform).anchoredPosition}");
             if (null == food)
                 food = obj.AddComponent<FoodItem>();
             food.InitItem();
             foodList.Add(food);
         }
-        (food.transform as RectTransform).anchoredPosition = (bornTR as RectTransform).anchoredPosition;
         food.RefreshItem(foodData);
-        //var cursorTr = mapCurve.GetComponent<BGCcCursorObjectTranslate>();
-        //var linner = mapCurve.GetComponent<BGCcCursorChangeLinear>();
-        //cursorTr.ObjectToManipulate = food.transform;
-
-        //mapCurve
-        //var cursor = mapCurve.GetComponent<BGCcCursor>();
-        //var und1 = Undo.AddComponent<BGCcCursorObjectTranslate>(mapCurve.gameObject);
-        //var und2 = Undo.AddComponent<BGCcCursorObjectTranslate>(mapCurve.gameObject);
-        //var list = mapCurve.GetComponents<BGCcCursorObjectTranslate>();
-        //Debug.Log("list.Count = {list.Length},und.name = {und1}");
         return food;
     }
 
     public FoodData GetOneFoodData()
     {
         FoodData food = new FoodData();
-        food.foodID = Random.Range(1000,1005);
+        food.foodID = Random.Range(1001,1006);
         food.moveSpeed = 3f;
         food.state = FoodState.Free;
         return food;

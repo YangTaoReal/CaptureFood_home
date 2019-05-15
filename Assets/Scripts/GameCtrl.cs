@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using SWS;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class GameCtrl : MonoBehaviour
     public static GameCtrl _Ins;
 
     public FoodCtrl foodCtrl;
-    //spublic BGCurve mapCurve;    // 当前地图的曲线
+    public PathManager mapCurve;    // 当前地图的曲线
 
     void Awake()
     {
@@ -17,6 +18,30 @@ public class GameCtrl : MonoBehaviour
         InitGame();
     }
     public EventCenter EC = new EventCenter();
+
+    private Camera _uiCamera;
+    public Camera UIcamera
+    {
+        get { 
+            if(null == _uiCamera)
+            {
+                _uiCamera = UICanvas.worldCamera;
+            }
+            return _uiCamera;
+        }
+    }
+    private Canvas _uiCanvas;
+    public Canvas UICanvas
+    {
+        get
+        {
+            if(null == _uiCanvas)
+            {
+                _uiCanvas = GameObject.FindWithTag("UICanvas").GetComponent<Canvas>();
+            }
+            return _uiCanvas;
+        }
+    }
 
 
     private void InitGame()
