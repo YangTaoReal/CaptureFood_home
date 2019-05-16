@@ -4,6 +4,7 @@ using DG.Tweening;
 using SWS;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class GameCtrl : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class GameCtrl : MonoBehaviour
 
     public FoodCtrl foodCtrl;
     public PathManager mapCurve;    // 当前地图的曲线
-
+    public SpriteShapeController mapShape;
     void Awake()
     {
         _Ins = this;
@@ -59,6 +60,12 @@ public class GameCtrl : MonoBehaviour
         Debug.Log("start game");
         foodCtrl.StartGame();
         Player._Ins.InitPlayer();
+        //mapCurve.waypoints
+        List<Vector3> pointList = new List<Vector3>();
+        for (int i = 0; i < mapShape.spline.GetPointCount() -1; i++)
+        {
+            pointList.Add(mapShape.spline.GetPosition(i));
+        }
     }
 
     //public BGCcCursor CreateCursor()
@@ -70,7 +77,7 @@ public class GameCtrl : MonoBehaviour
     //public BGCcCursorChangeLinear CreateCursorLinear(BGCcCursor cursor)
     //{
     //    var linear = Undo.AddComponent<BGCcCursorChangeLinear>(cursor.gameObject);
-        
+
     //    return linear;
     //}
 

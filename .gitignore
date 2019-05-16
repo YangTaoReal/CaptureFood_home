@@ -5,7 +5,6 @@ Unity.PackageManagerUI.Editor.csproj
 Unity.TextMeshPro.csproj
 Unity.TextMeshPro.Editor.csproj
 Temp/
-Packages/
 Logs/
 Library/
 CaptureFood.csproj
