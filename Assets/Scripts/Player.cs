@@ -18,8 +18,8 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
     public float upSpeed = 10;
     public float downSpeed = 20;
     public bool isCaptured;     // 已经抓住物体
+    public bool isBacking;
     private bool isPress;
-    private bool isBacking;
     private bool isDraging;
     private Vector2 sizeData;
     private Vector2 offset;
@@ -67,7 +67,6 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
     public void OnPointDown(BaseEventData eventData)
     {
         //Debug.Log("按下.....");
-        Debug.Log($"当前物体:{eventData.selectedObject}");
         isPress = true;
     }
 
@@ -98,6 +97,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
             isPress = false;
             isBacking = false;
             CallBack?.Invoke();
+            GameCtrl._Ins.EC.OnHandComeBackOver?.Invoke();
         });
     }
 
@@ -149,6 +149,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
             var pos1 = playerImg.rectTransform.anchoredPosition;
             playerImg.rectTransform.anchoredPosition = new Vector2((uguiPos + offset).x, pos1.y);
             var pos2 = playerImg.transform.position;
+            //RectTransformUtility.
             var screen1 = RectTransformUtility.WorldToScreenPoint(GameCtrl._Ins.UIcamera, pos2);
             var screen2 = RectTransformUtility.WorldToScreenPoint(GameCtrl._Ins.UIcamera, pos2);
             //Debug.Log($"screen1:{screen1},,screen2:{screen2}");

@@ -49,7 +49,7 @@ public class FoodCtrl : MonoBehaviour
         }
         if (!isFind)
         {
-            var requet = Resources.Load("Foods/FoodItem");
+            var requet = Resources.Load("Prefabs/Foods/FoodItem");
             var obj = Instantiate(requet, bornTR.position, Quaternion.identity, transform) as GameObject;food = obj.GetComponent<FoodItem>();
             //Debug.Log("bornPos:{bornTR.position},recttran:{(bornTR as RectTransform).anchoredPosition}");
             if (null == food)

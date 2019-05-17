@@ -41,12 +41,14 @@ public class FoodItem : MonoBehaviour
         //transform.position = splineMove.pathContainer.GetPathPoints()[0];
         //Debug.Log($"{transform.name} = {transform.position},vector[0]:{splineMove.pathContainer.GetPathPoints()[0]}");
         splineMove.StartMove();     // 事件必须在 startMove() 调用了在添加
+        //Debug.Log($"曲线事件长度 = {splineMove.events.Count}");
         UnityEvent myEvent = splineMove.events[splineMove.events.Count - 1];
         myEvent.RemoveAllListeners();
         myEvent.AddListener(()=> {
 
             //Debug.Log($"到达曲线终点,pointIndex = {splineMove.events.Count - 1}");
             ResetItem();
+            GameCtrl._Ins.EC.OnFoodArriveEndPoint?.Invoke(this);
         });
 
         
@@ -77,7 +79,7 @@ public class FoodItem : MonoBehaviour
         isUsing = false;
         gameObject.SetActive(false);
         splineMove.speed = 0;
-        transform.SetParent(GameCtrl._Ins.foodCtrl.transform);
+        transform.SetParent(MainPanel._Ins.foodCtrl.transform);
         foodInfo.state = FoodState.Free;
 
     }

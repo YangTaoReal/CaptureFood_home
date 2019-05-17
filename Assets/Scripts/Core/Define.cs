@@ -19,3 +19,12 @@ public enum FoodState
     Free,
     Captured,   // 被抓住
 }
+
+/// <summary>
+/// 游戏模式
+/// </summary>
+public enum GamePattern
+{
+    Challenge,
+    Time,
+}
