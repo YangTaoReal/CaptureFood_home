@@ -4,19 +4,23 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEditor;
 
+/// <summary>
+/// 生成食物
+/// </summary>
 public class FoodCtrl : MonoBehaviour
 {
     public Transform bornTR;
-    public Transform resetTR;
-    public Transform bornTriggerTR;
+    //public Transform resetTR;
+    //public Transform bornTriggerTR;
 
     public float minDis;
 
     public List<FoodItem> foodList = new List<FoodItem>();
+    public bool isCanCreateFood;
 
+    private List<FoodData> foodDatas = new List<FoodData>(); 
     private Vector3 currPos;
     private bool isCanBorn;
-    public bool isCanCreateFood;
 
     private void OnEnable()
     {
@@ -126,9 +130,21 @@ public class FoodCtrl : MonoBehaviour
 
 
     #endregion
-
+    /// <summary>
+    /// 根据游戏类型 生成食物
+    /// </summary>
     public void StartGame()
     {
+        // 挑战模式的话 需要将tartget食物和普通的食物进行洗牌算法
+        if(GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
+        {
+            // 将需要的数据填充进FoodDataList中，在洗乱
+            RiffleFoodData();
+        }
+        else  // 时间模式
+        {
+
+        }
         //currMapSpline = GameObject.FindWithTag("Map").transform.GetChild(0).GetComponent<CurvySpline>();
         //Debug.Log("CurrMapSpline = {CurrMapSpline}");
         CreateOneFood(GetOneFoodData());
@@ -138,6 +154,34 @@ public class FoodCtrl : MonoBehaviour
         },-1);
         isCanBorn = true;
         //StartCoroutine(StartBornFood());
+    }
+
+    /// <summary>
+    /// 开始洗牌操作 将数据随机打乱
+    /// </summary>
+    private void RiffleFoodData()
+    {
+        List<int> datas = new List<int>();
+        for (int i = 0; i < 20; i++)
+        {
+            datas.Add(i + 1);
+        }
+        System.Random random = new System.Random();
+        // 洗牌
+        int index;
+        int iTmp;
+        for (int i = 0; i < datas.Count; i++)
+        {
+            index  = Random.Range(0, datas.Count);
+            iTmp = datas[i];
+            datas[i] = datas[index];
+            datas[index] = iTmp;
+        }
+        Debug.Log("===============洗牌后==========================");
+        for (int i = 0; i < datas.Count; i++)
+        {
+            Debug.Log($"第{i + 1}张牌:{datas[i]}");
+        }
     }
 
     // 开始每隔一段时间生成一个食物，食物沿着曲线运动

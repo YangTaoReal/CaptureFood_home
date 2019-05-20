@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c16aee4a49c04f62af16b6cc9ce8e5b, type: 3}
+  m_Name: Sheet1
+  m_EditorClassIdentifier: 
+  SheetName: Assets/QuickSheet/Example/Excel/tao.xls
+  WorksheetName: Sheet1
+  dataArray:
+  - id: 1
+    name: "\u59D3\u540D"
+    money:
+    - 10.5
+    - 52.3
+    - 33.9
+  - id: 0
+    name: "\u826F\u8FB0\u7F8E\u666F"
+    money:
+    - 10.5
+    - 52.3
+    - 33.9
+  - id: 1
+    name: "\u826F\u8FB0\u7F8E\u666F"
+    money:
+    - 10.5
+    - 52.3
+    - 33.9

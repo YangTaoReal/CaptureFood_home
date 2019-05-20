@@ -357,6 +357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 700487027}
   - component: {fileID: 700487026}
+  - component: {fileID: 700487028}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -394,6 +395,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &700487028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700487025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d86aaa42aa5734475a7c9b42b9021cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1051236293
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,11 +508,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 309274611}
     m_Modifications:
-    - target: {fileID: 6068566333881363604, guid: 22ae7e3011db141f2b013b6abc1f0276,
-        type: 3}
-      propertyPath: m_Text
-      value: 0/100
-      objectReference: {fileID: 0}
     - target: {fileID: 4614250413988881707, guid: 22ae7e3011db141f2b013b6abc1f0276,
         type: 3}
       propertyPath: m_Name
@@ -509,6 +517,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068566333881363604, guid: 22ae7e3011db141f2b013b6abc1f0276,
+        type: 3}
+      propertyPath: m_Text
+      value: 0/100
       objectReference: {fileID: 0}
     - target: {fileID: 4614250413988881704, guid: 22ae7e3011db141f2b013b6abc1f0276,
         type: 3}
@@ -614,6 +627,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614250412422961410, guid: 22ae7e3011db141f2b013b6abc1f0276,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 132.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614250412422961410, guid: 22ae7e3011db141f2b013b6abc1f0276,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614250412422961410, guid: 22ae7e3011db141f2b013b6abc1f0276,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 340
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614250412422961408, guid: 22ae7e3011db141f2b013b6abc1f0276,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.39215687
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22ae7e3011db141f2b013b6abc1f0276, type: 3}

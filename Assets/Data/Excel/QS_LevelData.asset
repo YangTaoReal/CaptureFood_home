@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc23184edf1aa4dccbf1486873e517e0, type: 3}
+  m_Name: QS_LevelData
+  m_EditorClassIdentifier: 
+  SheetName: Assets/Data/Excel/GameData.xls
+  WorksheetName: QS_LevelData
+  dataArray:
+  - id: 10000
+    totalnum: 100
+    target: 10001,10|10002,10|10003,10
+    others: 10004,20|10005,20|10006,20

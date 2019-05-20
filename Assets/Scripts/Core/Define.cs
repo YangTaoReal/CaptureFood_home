@@ -28,3 +28,8 @@ public enum GamePattern
     Challenge,
     Time,
 }
+
+public class LevelData
+{
+    //public 
+}

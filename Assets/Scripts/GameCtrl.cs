@@ -14,6 +14,27 @@ public class GameCtrl : MonoBehaviour
     public GameObject mapObj;
     public PathManager mapCurve;    // 当前地图的曲线
     public SpriteShapeController mapShape;
+    public QS_LevelData levelData;
+
+    private int _currLevel = 0;   // 当前关卡
+    public int CurrLevel
+    {
+        get { return _currLevel;}
+        set
+        {
+            _currLevel = value;
+        }
+    }
+
+    private GamePattern _currPattern;
+    public GamePattern CurrPattern
+    {
+        get { return _currPattern; }
+        set
+        {
+            _currPattern = value;
+        }
+    }
     void Awake()
     {
         _Ins = this;
@@ -61,8 +82,9 @@ public class GameCtrl : MonoBehaviour
     public void StartGame(GamePattern pattern)
     {
         Debug.Log("start game");
+        CurrPattern = pattern;
         CreatePathBySpriteShape();
-        MainPanel._Ins.BeginGame(pattern);
+        MainPanel._Ins.BeginGame();
         Player._Ins.InitPlayer();
         //mapCurve.Create()
     }

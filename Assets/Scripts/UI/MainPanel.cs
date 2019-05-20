@@ -8,16 +8,7 @@ public class MainPanel : BasePanel
     public Text ui_ChallengeNum;
 
     public FoodCtrl foodCtrl;
-    private GamePattern _currPattern;
-    public GamePattern CurrPattern
-    {
-        get { return _currPattern; }
-        set
-        {
-            _currPattern = value;
-        }
-    }
-
+   
     private static MainPanel _ins;
     public static MainPanel _Ins
     {
@@ -53,9 +44,8 @@ public class MainPanel : BasePanel
         GameCtrl._Ins.EC.OnRefreshCurrDishNum += OnRefreshDishNum;
     }
 
-    public void BeginGame(GamePattern pattern)
+    public void BeginGame()
     {
-        CurrPattern = pattern;
         base.Show();
         foodCtrl.StartGame();
     }
