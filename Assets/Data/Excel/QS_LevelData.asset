@@ -16,6 +16,7 @@ MonoBehaviour:
   WorksheetName: QS_LevelData
   dataArray:
   - id: 10000
-    totalnum: 100
-    target: 10001,10|10002,10|10003,10
-    others: 10004,30|10005,30
+    totalnum: 44
+    target: 10001,1|10002,1|10003,1|10004,1
+    pool: 10001,8|10002,8|10003,8|10004,10|10005,10
+    movespeed: 5

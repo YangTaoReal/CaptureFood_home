@@ -36,7 +36,7 @@ namespace UnityQuickSheet
         protected readonly static string ImportSettingFilename = "New Import Setting.asset";
 
         [SerializeField]
-        private string templatePath = "QuickSheet/Templates";
+        private string templatePath = "Third_Party/QuickSheet/Templates";
         public string TemplatePath
         {
             get { return templatePath; }

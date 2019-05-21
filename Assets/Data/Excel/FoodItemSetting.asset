@@ -10,35 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80e14a72067f1ad408ec8d661bc560ce, type: 3}
-  m_Name: GameDataSetting
+  m_Name: FoodItemSetting
   m_EditorClassIdentifier: 
   templatePath: Third_Party/QuickSheet/ExcelPlugin/Templates
   scriptFilePath: Data/RunTime
   editorScriptFilePath: Data/Editor
-  sheetName: GameLevelData.xls
-  workSheetName: QS_LevelData
+  sheetName: FoodItem.xls
+  workSheetName: QS_FoodItem
   columnHeaderList:
   - type: 3
     name: ID
     isEnable: 0
     isArray: 0
   - type: 3
-    name: TotalNum
-    isEnable: 0
-    isArray: 0
-  - type: 1
-    name: Target
-    isEnable: 0
-    isArray: 0
-  - type: 1
-    name: Pool
+    name: Score
     isEnable: 0
     isArray: 0
   - type: 5
     name: MoveSpeed
     isEnable: 0
     isArray: 0
-  excelFilePath: Assets/Data/Excel/GameLevelData.xls
+  - type: 7
+    name: FoodState
+    isEnable: 0
+    isArray: 0
+  excelFilePath: Assets/Data/Excel/FoodItem.xls
   SheetNames:
-  - QS_LevelData
+  - QS_FoodItem
   currentSelectedSheet: 0

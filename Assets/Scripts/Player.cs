@@ -123,6 +123,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
             ComeBack(()=> {
 
                 item.ResetItem();
+                GameCtrl._Ins.EC.OnCheckCaptureFood?.Invoke(item);
                 //Destroy(item.gameObject);
             });
         }

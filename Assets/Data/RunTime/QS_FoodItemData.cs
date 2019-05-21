@@ -6,26 +6,22 @@ using System.Collections;
 /// !!! DO NOT CHANGE Tabs to Spaces !!!
 /// 
 [System.Serializable]
-public class QS_LevelDataData
+public class QS_FoodItemData
 {
   [SerializeField]
   int id;
   public int ID { get {return id; } set { id = value;} }
   
   [SerializeField]
-  int totalnum;
-  public int Totalnum { get {return totalnum; } set { totalnum = value;} }
-  
-  [SerializeField]
-  string target;
-  public string Target { get {return target; } set { target = value;} }
-  
-  [SerializeField]
-  string pool;
-  public string Pool { get {return pool; } set { pool = value;} }
+  int score;
+  public int Score { get {return score; } set { score = value;} }
   
   [SerializeField]
   float movespeed;
   public float Movespeed { get {return movespeed; } set { movespeed = value;} }
+  
+  [SerializeField]
+  FoodState foodstate;
+  public FoodState FOODSTATE { get {return foodstate; } set { foodstate = value;} }
   
 }

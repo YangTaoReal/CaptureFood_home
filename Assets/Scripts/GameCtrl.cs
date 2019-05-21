@@ -9,12 +9,13 @@ using UnityEngine.U2D;
 public class GameCtrl : MonoBehaviour
 {
     public static GameCtrl _Ins;
-
+    public EventCenter EC = new EventCenter();
     public int dishArriveNum;
     public GameObject mapObj;
     public PathManager mapCurve;    // 当前地图的曲线
     public SpriteShapeController mapShape;
-    public QS_LevelData levelData;
+    public QS_LevelData QS_LevelDatas;
+    public QS_FoodItem QS_FoodItemDatas;
 
     private int _currLevel = 0;   // 当前关卡
     public int CurrLevel
@@ -23,6 +24,7 @@ public class GameCtrl : MonoBehaviour
         set
         {
             _currLevel = value;
+            //PlayerPrefs.SetInt("CurrLevel",value);
         }
     }
 
@@ -41,7 +43,6 @@ public class GameCtrl : MonoBehaviour
         StartPanel._Ins.Show();
         InitGame();
     }
-    public EventCenter EC = new EventCenter();
 
     private Camera _uiCamera;
     public Camera UIcamera
@@ -54,6 +55,7 @@ public class GameCtrl : MonoBehaviour
             return _uiCamera;
         }
     }
+
     private Canvas _uiCanvas;
     public Canvas UICanvas
     {
@@ -72,6 +74,7 @@ public class GameCtrl : MonoBehaviour
     {
         DOTween.defaultEaseType = Ease.Linear;
         GameCtrl._Ins.EC.OnFoodArriveEndPoint += OnOneFoodArriveEnd;
+        EC.OnChallengeWin += OnChallengeWin;
         //StartGame();
     }
     void Update()
@@ -82,6 +85,8 @@ public class GameCtrl : MonoBehaviour
     public void StartGame(GamePattern pattern)
     {
         Debug.Log("start game");
+        PlayerPrefs.SetInt("CurrLevel", 1);
+        CurrLevel = PlayerPrefs.GetInt("CurrLevel",1);
         CurrPattern = pattern;
         CreatePathBySpriteShape();
         MainPanel._Ins.BeginGame();
@@ -109,27 +114,8 @@ public class GameCtrl : MonoBehaviour
         mapCurve.Create(wayPoints, true);
         //mapCurve.gameObject.AddComponent<PathRenderer>();
         //mapCurve.GetComponent<LineRenderer>().material = new Material(Shader.Find("Sprites/Default"));
-        Debug.Log($"生成结束");
+        //Debug.Log($"生成结束");
     }
-
-    //public BGCcCursor CreateCursor()
-    //{
-    //    var cursor = Undo.AddComponent<BGCcCursor>(mapCurve.gameObject);
-    //    return cursor;
-    //}
-
-    //public BGCcCursorChangeLinear CreateCursorLinear(BGCcCursor cursor)
-    //{
-    //    var linear = Undo.AddComponent<BGCcCursorChangeLinear>(cursor.gameObject);
-
-    //    return linear;
-    //}
-
-    //public BGCcCursorObjectTranslate CreateCursorTranslate(BGCcCursor cursor)
-    //{
-    //    var traslate = Undo.AddComponent<BGCcCursorObjectTranslate>(cursor.gameObject);
-    //    return traslate;
-    //}
 
     #region   观测事件
     private void OnOneFoodArriveEnd(FoodItem item)
@@ -144,4 +130,27 @@ public class GameCtrl : MonoBehaviour
     }
 
     #endregion
+
+    public QS_LevelDataData GetCurrLevelData()
+    {
+        return QS_LevelDatas.dataArray[CurrLevel - 1];
+    }
+
+    public QS_FoodItemData GetFoodItemData(int FoodID)
+    {
+        for (int i = 0; i < QS_FoodItemDatas.dataArray.Length; i++)
+        {
+            if (QS_FoodItemDatas.dataArray[i].ID == FoodID)
+                return QS_FoodItemDatas.dataArray[i];
+        }
+        return null;
+    }
+
+    private void OnChallengeWin()
+    {
+        Debug.Log($"恭喜挑战胜利");
+        MainPanel._Ins.ResetUI();
+        //StartPanel._Ins.Show();
+
+    }
 }

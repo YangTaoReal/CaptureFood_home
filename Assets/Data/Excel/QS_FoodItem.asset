@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb1ad5d6e3584814a9c96176a582926, type: 3}
+  m_Name: QS_FoodItem
+  m_EditorClassIdentifier: 
+  SheetName: Assets/Data/Excel/FoodItem.xls
+  WorksheetName: QS_FoodItem
+  dataArray:
+  - id: 10001
+    score: 10
+    movespeed: 5
+  - id: 10002
+    score: 10
+    movespeed: 5
+  - id: 10003
+    score: 10
+    movespeed: 5
+  - id: 10004
+    score: 10
+    movespeed: 5
+  - id: 10005
+    score: 10
+    movespeed: 5

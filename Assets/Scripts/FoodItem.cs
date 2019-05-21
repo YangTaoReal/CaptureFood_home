@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class FoodItem : MonoBehaviour
 {
     [SerializeField]
-    public FoodData foodInfo;
+    public QS_FoodItemData foodInfo;
 
     public bool isUsing;
     //public bool isMoving;
@@ -54,15 +54,15 @@ public class FoodItem : MonoBehaviour
         
     }
 
-    public void RefreshItem(FoodData data)
+    public void RefreshItem(QS_FoodItemData data)
     {
-        foodImg.sprite = Resources.Load<Sprite>("UI/" + data.foodID);
+        foodImg.sprite = Resources.Load<Sprite>("UI/" + data.ID);
         isUsing = true;
         foodInfo = data;
         gameObject.SetActive(true);
         splineMove.enabled = true;
         boxcollider.enabled = true;
-        splineMove.speed = speed;
+        splineMove.speed = data.Movespeed;
         splineMove.StartMove();
     }
 
@@ -80,14 +80,14 @@ public class FoodItem : MonoBehaviour
         gameObject.SetActive(false);
         splineMove.speed = 0;
         transform.SetParent(MainPanel._Ins.foodCtrl.transform);
-        foodInfo.state = FoodState.Free;
+        foodInfo.FOODSTATE = FoodState.Free;
 
     }
 
     public void OnCaptured()
     {
         // 被抓住
-        foodInfo.state = FoodState.Captured;
+        foodInfo.FOODSTATE = FoodState.Captured;
         splineMove.Stop();
         splineMove.enabled = false;
         boxcollider.enabled = false;

@@ -7,11 +7,11 @@ using UnityQuickSheet;
 ///
 /// !!! Machine generated code !!!
 ///
-public class QS_LevelDataAssetPostprocessor : AssetPostprocessor 
+public class QS_FoodItemAssetPostprocessor : AssetPostprocessor 
 {
-    private static readonly string filePath = "Assets/Data/Excel/GameLevelData.xls";
-    private static readonly string assetFilePath = "Assets/Data/Excel/QS_LevelData.asset";
-    private static readonly string sheetName = "QS_LevelData";
+    private static readonly string filePath = "Assets/Data/Excel/FoodItem.xls";
+    private static readonly string assetFilePath = "Assets/Data/Excel/QS_FoodItem.asset";
+    private static readonly string sheetName = "QS_FoodItem";
     
     static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
@@ -20,16 +20,16 @@ public class QS_LevelDataAssetPostprocessor : AssetPostprocessor
             if (!filePath.Equals (asset))
                 continue;
                 
-            QS_LevelData data = (QS_LevelData)AssetDatabase.LoadAssetAtPath (assetFilePath, typeof(QS_LevelData));
+            QS_FoodItem data = (QS_FoodItem)AssetDatabase.LoadAssetAtPath (assetFilePath, typeof(QS_FoodItem));
             if (data == null) {
-                data = ScriptableObject.CreateInstance<QS_LevelData> ();
+                data = ScriptableObject.CreateInstance<QS_FoodItem> ();
                 data.SheetName = filePath;
                 data.WorksheetName = sheetName;
                 AssetDatabase.CreateAsset ((ScriptableObject)data, assetFilePath);
                 //data.hideFlags = HideFlags.NotEditable;
             }
             
-            //data.dataArray = new ExcelQuery(filePath, sheetName).Deserialize<QS_LevelDataData>().ToArray();		
+            //data.dataArray = new ExcelQuery(filePath, sheetName).Deserialize<QS_FoodItemData>().ToArray();		
 
             //ScriptableObject obj = AssetDatabase.LoadAssetAtPath (assetFilePath, typeof(ScriptableObject)) as ScriptableObject;
             //EditorUtility.SetDirty (obj);
@@ -37,7 +37,7 @@ public class QS_LevelDataAssetPostprocessor : AssetPostprocessor
             ExcelQuery query = new ExcelQuery(filePath, sheetName);
             if (query != null && query.IsValid())
             {
-                data.dataArray = query.Deserialize<QS_LevelDataData>().ToArray();
+                data.dataArray = query.Deserialize<QS_FoodItemData>().ToArray();
                 ScriptableObject obj = AssetDatabase.LoadAssetAtPath (assetFilePath, typeof(ScriptableObject)) as ScriptableObject;
                 EditorUtility.SetDirty (obj);
             }

@@ -18,10 +18,13 @@ public class FoodCtrl : MonoBehaviour
     public List<FoodItem> foodList = new List<FoodItem>();
     public bool isCanCreateFood;
 
-    private List<FoodData> foodDatas = new List<FoodData>(); 
+    private List<QS_FoodItemData> foodDatas = new List<QS_FoodItemData>(); 
     private Vector3 currPos;
+    private int foodDataIndex = 0;
     private bool isCanBorn;
+    private int timerID;
 
+    private List<int> targetList = new List<int>();
     private void OnEnable()
     {
         GameCtrl._Ins.EC.OnTriggerBornFodd += OnTriggerBorn;
@@ -38,13 +41,15 @@ public class FoodCtrl : MonoBehaviour
 
     }
 
-    public FoodItem CreateOneFood(FoodData foodData)
+    public FoodItem CreateOneFood(QS_FoodItemData foodData)
     {
+        if (null == foodData)
+            return null;
         bool isFind = false;
         FoodItem food = null;
         for (int i = 0; i < foodList.Count; i++)
         {
-            if(foodList[i].isUsing == false && foodList[i].foodInfo.state == FoodState.Free)
+            if(foodList[i].isUsing == false && foodList[i].foodInfo.FOODSTATE == FoodState.Free)
             {
                 food = foodList[i];
                 isFind = true;
@@ -54,7 +59,8 @@ public class FoodCtrl : MonoBehaviour
         if (!isFind)
         {
             var requet = Resources.Load("Prefabs/Foods/FoodItem");
-            var obj = Instantiate(requet, bornTR.position, Quaternion.identity, transform) as GameObject;food = obj.GetComponent<FoodItem>();
+            var obj = Instantiate(requet, bornTR.position, Quaternion.identity, transform) as GameObject;
+            food = obj.GetComponent<FoodItem>();
             //Debug.Log("bornPos:{bornTR.position},recttran:{(bornTR as RectTransform).anchoredPosition}");
             if (null == food)
                 food = obj.AddComponent<FoodItem>();
@@ -65,12 +71,19 @@ public class FoodCtrl : MonoBehaviour
         return food;
     }
 
-    public FoodData GetOneFoodData()
+    public QS_FoodItemData GetOneFoodData()
     {
-        FoodData food = new FoodData();
-        food.foodID = Random.Range(1001,1006);
-        food.moveSpeed = 3f;
-        food.state = FoodState.Free;
+        if (foodDataIndex > foodDatas.Count - 1)
+        {
+            //Debug.LogError($"挑战模式的数据已经用完了");
+            return null;
+        }
+        QS_FoodItemData food = foodDatas[foodDataIndex];
+        foodDataIndex++;
+
+        //food.foodID = Random.Range(1001,1006);
+        //food.moveSpeed = 3f;
+        //food.state = FoodState.Free;
         return food;
     }
 
@@ -82,12 +95,6 @@ public class FoodCtrl : MonoBehaviour
     public void StartMoveFoods()
     {
 
-    }
-
-    // 检测是否超过了边界
-    public void CheckIfReset()
-    {
-        
     }
 
     private void Update()
@@ -128,6 +135,10 @@ public class FoodCtrl : MonoBehaviour
 
     }
 
+    private void OnCheckCaptureFood(FoodItem item)
+    {
+
+    }
 
     #endregion
     /// <summary>
@@ -139,7 +150,12 @@ public class FoodCtrl : MonoBehaviour
         if(GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
         {
             // 将需要的数据填充进FoodDataList中，在洗乱
+            targetList.Clear();
             RiffleFoodData();
+            CreateOneFood(GetOneFoodData());
+            timerID = TimerUtil.SetTimeOut(1f, () => {
+                CreateOneFood(GetOneFoodData());
+            }, -1);
         }
         else  // 时间模式
         {
@@ -147,12 +163,11 @@ public class FoodCtrl : MonoBehaviour
         }
         //currMapSpline = GameObject.FindWithTag("Map").transform.GetChild(0).GetComponent<CurvySpline>();
         //Debug.Log("CurrMapSpline = {CurrMapSpline}");
-        CreateOneFood(GetOneFoodData());
-        //StartMoveFoods();
-        TimerUtil.SetTimeOut(1f,()=> {
-            CreateOneFood(GetOneFoodData());
-        },-1);
-        isCanBorn = true;
+        //CreateOneFood(GetOneFoodData());
+        //TimerUtil.SetTimeOut(1f,()=> {
+        //    CreateOneFood(GetOneFoodData());
+        //},-1);
+
         //StartCoroutine(StartBornFood());
     }
 
@@ -161,38 +176,68 @@ public class FoodCtrl : MonoBehaviour
     /// </summary>
     private void RiffleFoodData()
     {
-        List<int> datas = new List<int>();
-        for (int i = 0; i < 20; i++)
+        foodDatas.Clear();
+        var LevelData = GameCtrl._Ins.GetCurrLevelData();
+        //string[] target = LevelData.Target.Split('|');
+        //for (int i = 0; i < target.Length; i++)
+        //{
+        //    string[] goal = target[i].Split(',');
+        //    int id = int.Parse(goal[0]);
+        //    int num = int.Parse(goal[1]);
+        //    AddDataToFoodDatas(id, num);
+        //}
+        string[] pool = LevelData.Pool.Split('|');
+        for (int i = 0; i < pool.Length; i++)
         {
-            datas.Add(i + 1);
+            string[] goal = pool[i].Split(',');
+            int id = int.Parse(goal[0]);
+            int num = int.Parse(goal[1]);
+            AddDataToFoodDatas(id, num);
         }
+
         System.Random random = new System.Random();
         // 洗牌
         int index;
-        int iTmp;
-        for (int i = 0; i < datas.Count; i++)
+        QS_FoodItemData iTmp;
+        // 洗两次 想洗几次都可以
+        for (int j = 0; j < 2; j++)
         {
-            index  = Random.Range(0, datas.Count);
-            iTmp = datas[i];
-            datas[i] = datas[index];
-            datas[index] = iTmp;
+            for (int i = 0; i < foodDatas.Count; i++)
+            {
+                index = Random.Range(0, foodDatas.Count);
+                iTmp = foodDatas[i];
+                foodDatas[i] = foodDatas[index];
+                foodDatas[index] = iTmp;
+            }
         }
-        Debug.Log("===============洗牌后==========================");
-        for (int i = 0; i < datas.Count; i++)
+
+        //Debug.Log($"===============洗牌后====表中数据个数:{foodDatas.Count}======================");
+        //for (int i = 0; i < foodDatas.Count; i++)
+        //{
+        //    Debug.Log($"第{i + 1}个食物:{foodDatas[i].ID}");
+        //}
+    }
+
+    private void AddDataToFoodDatas(int foodID,int num)
+    {
+        var data = GameCtrl._Ins.GetFoodItemData(foodID);
+        if(data != null)
         {
-            Debug.Log($"第{i + 1}张牌:{datas[i]}");
+            for (int i = 0; i < num; i++)
+            {
+                foodDatas.Add(data);
+            }
         }
     }
 
-    // 开始每隔一段时间生成一个食物，食物沿着曲线运动
-    IEnumerator StartBornFood()
+    public void ResetAll()
     {
-        CreateOneFood(GetOneFoodData());
-        while(isCanBorn)
+        TimerUtil.RemoveTimeOutWithCallBack(timerID);
+        TimerUtil.RemoveTimeOut(timerID);
+        for (int i = 0; i < foodList.Count; i++)
         {
-            yield return new WaitForSeconds(1f);
-            CreateOneFood(GetOneFoodData());
+            foodList[i].ResetItem();
+
         }
-        yield return null;
     }
 }
