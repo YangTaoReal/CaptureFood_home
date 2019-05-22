@@ -46,7 +46,7 @@ MonoBehaviour:
     - {fileID: 0}
   m_FillPixelPerUnit: 100
   m_BevelSize: 0
-  m_BevelCutoff: 0
+  m_BevelCutoff: 2
   m_FillOffset: 0
   m_WorldSpaceUV: 0
   m_UseSpriteBorders: 1

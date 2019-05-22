@@ -10,18 +10,21 @@ using UnityEditor;
 public class FoodCtrl : MonoBehaviour
 {
     public Transform bornTR;
+    public Transform ui_ConveyorTR;
     //public Transform resetTR;
     //public Transform bornTriggerTR;
 
     public float minDis;
 
     public List<FoodItem> foodList = new List<FoodItem>();
+    public List<ConveyorItem> conveyorList = new List<ConveyorItem>();
+
     public bool isCanCreateFood;
 
     private List<QS_FoodItemData> foodDatas = new List<QS_FoodItemData>(); 
     private Vector3 currPos;
     private int foodDataIndex = 0;
-    private bool isCanBorn;
+    //private bool isCanBorn;
     private int timerID;
 
     private List<int> targetList = new List<int>();
@@ -33,7 +36,6 @@ public class FoodCtrl : MonoBehaviour
     private void OnDisable()
     {
         GameCtrl._Ins.EC.OnTriggerBornFodd -= OnTriggerBorn;
-
     }
 
     public void InitFoodCtrl()
@@ -68,6 +70,7 @@ public class FoodCtrl : MonoBehaviour
             foodList.Add(food);
         }
         food.RefreshItem(foodData);
+        GameCtrl._Ins.CurrFoodNum++;
         return food;
     }
 
@@ -75,7 +78,7 @@ public class FoodCtrl : MonoBehaviour
     {
         if (foodDataIndex > foodDatas.Count - 1)
         {
-            //Debug.LogError($"挑战模式的数据已经用完了");
+            GameCtrl._Ins.IsFoodDataRunOut = true;
             return null;
         }
         QS_FoodItemData food = foodDatas[foodDataIndex];
@@ -97,36 +100,6 @@ public class FoodCtrl : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-        //if(isCanMove)
-        //{
-        //    for (int i = 0; i < foodList.Count; i++)
-        //    {
-        //        FoodItem item = foodList[i];
-        //        //if (!item.isUsing)
-        //            //return;
-        //        if (item.foodInfo.state == FoodState.Free)
-        //        {
-        //            //item.isMoving = true; 
-        //            Vector3 curr = foodList[i].transform.position;
-
-        //            float t = Vector3.Distance(curr, resetTR.position) / item.foodInfo.moveSpeed;
-        //            //Debug.Log("时间t:{t}");
-        //            //item.transform.DOMove(resetTR.position, t).SetEase(Ease.Linear).OnComplete(() =>
-        //            //{
-        //            //    item.ResetItem(bornTR.position);
-        //            //});
-        //            item.transform.position = Vector3.MoveTowards(curr, resetTR.position, Time.deltaTime * foodList[i].foodInfo.moveSpeed);
-        //            if(item.transform.position == resetTR.position)
-        //            {
-        //                item.ResetItem(bornTR.position);
-        //            }
-        //        }
-        //    }
-        //}
-    }
-
     #region  订阅事件相关
     private void OnTriggerBorn()
     {
@@ -146,16 +119,19 @@ public class FoodCtrl : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
+
+        // 开始移动履带
+        MoveConveyor();
+
         // 挑战模式的话 需要将tartget食物和普通的食物进行洗牌算法
-        if(GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
+        if (GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
         {
             // 将需要的数据填充进FoodDataList中，在洗乱
             targetList.Clear();
             RiffleFoodData();
-            CreateOneFood(GetOneFoodData());
-            timerID = TimerUtil.SetTimeOut(1f, () => {
-                CreateOneFood(GetOneFoodData());
-            }, -1);
+            StartBornFood();
+
+
         }
         else  // 时间模式
         {
@@ -232,12 +208,61 @@ public class FoodCtrl : MonoBehaviour
 
     public void ResetAll()
     {
-        TimerUtil.RemoveTimeOutWithCallBack(timerID);
-        TimerUtil.RemoveTimeOut(timerID);
+        StopBornFood();
         for (int i = 0; i < foodList.Count; i++)
         {
             foodList[i].ResetItem();
 
         }
+    }
+
+    public void StartBornFood()
+    {
+        CreateOneFood(GetOneFoodData());
+        timerID = TimerUtil.SetTimeOut(1f, () => {
+            CreateOneFood(GetOneFoodData());
+        }, -1);
+    }
+
+    public void StopBornFood()
+    {
+        TimerUtil.RemoveTimeOutWithCallBack(timerID);
+        TimerUtil.RemoveTimeOut(timerID);
+    }
+
+    private void CreateConveyor()
+    {
+        bool isFind = false;
+        ConveyorItem item = null;
+        for (int i = 0; i < conveyorList.Count; i++)
+        {
+            if (!conveyorList[i].isUsing)
+            {
+                item = conveyorList[i];
+                isFind = true;
+                break;
+            }
+        }
+
+        if (!isFind)
+        {
+
+            var co = Resources.Load<ConveyorItem>("Prefabs/Foods/ConveyorItem");
+            item = Instantiate(co, Vector3.zero, Quaternion.identity, ui_ConveyorTR);
+            item.InitItem();
+            conveyorList.Add(item);
+        }
+
+        item.RefreshItem();
+
+    }
+
+    public void MoveConveyor()
+    {
+        CreateConveyor();
+        TimerUtil.SetTimeOut(0.2f, () => {
+
+            CreateConveyor();
+        }, -1);
     }
 }

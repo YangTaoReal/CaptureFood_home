@@ -36,7 +36,7 @@ namespace UnityQuickSheet
         /// <summary>
         /// A default path where .txt template files are.
         /// </summary>
-        public string TemplatePath = "Third_Party/QuickSheet/GDataPlugin/Templates";
+        public string TemplatePath = "QuickSheet/GDataPlugin/Templates";
 
         /// <summary>
         /// A path where generated ScriptableObject derived class and its data class script files are to be put.

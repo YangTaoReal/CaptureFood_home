@@ -7,11 +7,13 @@ public class MainPanel : BasePanel
 {
     public Text ui_ChallengeNum;
     public Transform ui_TargetTR;
-
+    public Transform ui_ConveyorTR;
     public FoodCtrl foodCtrl;
+
     private QS_LevelDataData currLevelData;
     private List<int> targetIDList = new List<int>();
     private Dictionary<int, TargetItem> targetItemDic = new Dictionary<int, TargetItem>();
+
 
     private static MainPanel _ins;
     public static MainPanel _Ins
@@ -113,7 +115,7 @@ public class MainPanel : BasePanel
         if (isWin)
         {
             //Debug.Log($"所有的目标都达到了,isWin={isWin}");
-            GameCtrl._Ins.EC.OnChallengeWin?.Invoke();
+            GameCtrl._Ins.GameOver(true);
         }
     }
 

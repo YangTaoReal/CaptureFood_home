@@ -12,6 +12,7 @@ public class EventCenter
     public Action<FoodItem> OnFoodArriveEndPoint = (food) => { };
     public Action<int> OnRefreshCurrDishNum = (dishNum) => { };
     public Action<FoodItem> OnCheckCaptureFood = (food) => { };
-    public Action OnChallengeWin = () => { };
+    public Action<GamePattern, bool> OnGameOver = (currPattern, isWin) => { };
+
 
 }

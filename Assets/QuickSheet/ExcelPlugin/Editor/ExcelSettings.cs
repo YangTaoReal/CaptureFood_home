@@ -15,13 +15,13 @@ namespace UnityQuickSheet
     /// <summary>
     /// A class manages excel setting.
     /// </summary>
-    [CreateAssetMenu(menuName = "Third_Party/QuickSheet/Setting/Excel Setting")]
+    [CreateAssetMenu(menuName = "QuickSheet/Setting/Excel Setting")]
     public class ExcelSettings : SingletonScriptableObject<ExcelSettings>
     {
         /// <summary>
         /// A default path where .txt template files are.
         /// </summary>
-        public string TemplatePath = "Third_Party/QuickSheet/ExcelPlugin/Templates";
+        public string TemplatePath = "QuickSheet/ExcelPlugin/Templates";
 
         /// <summary>
         /// A path where generated ScriptableObject derived class and its data class script files are to be put.

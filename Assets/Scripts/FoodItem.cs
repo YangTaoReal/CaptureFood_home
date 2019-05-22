@@ -34,7 +34,7 @@ public class FoodItem : MonoBehaviour
         boxcollider = GetComponent<BoxCollider2D>();
         foodImg = GetComponent<Image>();
         splineMove.pathContainer = GameCtrl._Ins.mapCurve;
-        splineMove.speed = speed;
+        splineMove.speed = GameCtrl._Ins.GetCurrLevelData().Movespeed;
         splineMove.pathMode = DG.Tweening.PathMode.TopDown2D;
         splineMove.loopType = splineMove.LoopType.loop;
         //Debug.Log($"{transform.name} = {transform.position},vector[0]:{splineMove.pathContainer.GetPathPoints()[0]}");
@@ -62,7 +62,7 @@ public class FoodItem : MonoBehaviour
         gameObject.SetActive(true);
         splineMove.enabled = true;
         boxcollider.enabled = true;
-        splineMove.speed = data.Movespeed;
+        splineMove.speed = GameCtrl._Ins.GetCurrLevelData().Movespeed;   //data.Movespeed;
         splineMove.StartMove();
     }
 
