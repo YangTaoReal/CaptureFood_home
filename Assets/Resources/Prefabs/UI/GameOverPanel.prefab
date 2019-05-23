@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000015259, y: -71}
+  m_AnchoredPosition: {x: 0.000015259, y: -377}
   m_SizeDelta: {x: 504.6, y: 190.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4642821027792673690
@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8FD4\u56DE\u4E3B\u754C\u9762"
+  m_Text: "\u5206\u4EAB"
 --- !u!114 &8279805238084060211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 3952018074717474789}
   - component: {fileID: 8834430119364865750}
   m_Layer: 5
-  m_Name: ChallengeBtn
+  m_Name: NextLevelBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,7 +390,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6311\u6218\u6A21\u5F0F"
+  m_Text: "\u4E0B\u4E00\u5173"
 --- !u!114 &8834430119364865750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,7 +556,7 @@ GameObject:
   - component: {fileID: 7408760703092114409}
   - component: {fileID: 6055268811520928349}
   m_Layer: 5
-  m_Name: TimeBtn
+  m_Name: BackToMainBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -622,7 +622,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u65F6\u95F4\u6A21\u5F0F"
+  m_Text: "\u56DE\u5230\u4E3B\u754C\u9762"
 --- !u!114 &6055268811520928349
 MonoBehaviour:
   m_ObjectHideFlags: 0

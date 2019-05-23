@@ -18,15 +18,20 @@ MonoBehaviour:
   - id: 10001
     score: 10
     movespeed: 5
+    foodstate: 0
   - id: 10002
     score: 10
     movespeed: 5
+    foodstate: 0
   - id: 10003
     score: 10
     movespeed: 5
+    foodstate: 0
   - id: 10004
     score: 10
     movespeed: 5
+    foodstate: 0
   - id: 10005
     score: 10
     movespeed: 5
+    foodstate: 0

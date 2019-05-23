@@ -44,6 +44,17 @@ public class GameOverPanel : BasePanel
 
     private void InitEvent()
     {
+        ui_NextLevelBtn.onClick.AddListener(() =>
+        {
 
+        });
+
+        ui_BackToMainBtn.onClick.AddListener(() =>
+        {
+            Close();
+            MainPanel._Ins.Close();
+            StartPanel._Ins.Show();
+            GameCtrl._Ins.EC.OnResetGameData?.Invoke();
+        });
     }
 }

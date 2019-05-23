@@ -139,6 +139,8 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (GameCtrl._Ins.IsPause == true)
+            return;
         //Debug.Log($"delta:{eventData.delta},scrollDelta:{eventData.scrollDelta}");
         //transform.localPosition = new Vector3(transform.localPosition.x + eventData.delta.x, transform.localPosition.y, transform.localPosition.z);
         Vector2 mousePos = eventData.position;

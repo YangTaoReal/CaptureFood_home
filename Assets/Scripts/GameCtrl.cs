@@ -18,6 +18,13 @@ public class GameCtrl : MonoBehaviour
     public QS_LevelData QS_LevelDatas;
     public QS_FoodItem QS_FoodItemDatas;
 
+    private bool _isPause;
+    public bool IsPause
+    {
+        get { return _isPause; }
+        set { _isPause = value; }
+    }
+
     private bool _isAllFoodArrive;
     public bool IsAllFoodArrive
     {
@@ -106,7 +113,7 @@ public class GameCtrl : MonoBehaviour
     {
         DOTween.defaultEaseType = Ease.Linear;
         GameCtrl._Ins.EC.OnFoodArriveEndPoint += OnOneFoodArriveEnd;
-
+        EC.OnGameOver += OnGameOver;
         //StartGame();
     }
     void Update()
@@ -187,10 +194,7 @@ public class GameCtrl : MonoBehaviour
         }
         if (IsFoodDataRunOut && IsAllFoodArrive)
         {
-            Debug.Log("game over");
-            MainPanel._Ins.Close();
-
-            GameOver(false);
+            InvokeGameOver(false);
         }
         EC.OnRefreshCurrDishNum?.Invoke(dishArriveNum);
     }
@@ -212,11 +216,13 @@ public class GameCtrl : MonoBehaviour
         return null;
     }
 
-    private void OnChallengeWin()
+    private void OnGameOver(GamePattern currPattern,bool isWin)
     {
-        Debug.Log($"恭喜挑战胜利");
+        Debug.Log($"{currPattern}模式结束，是否获胜:{isWin}");
+
+        ResetGame();
         MainPanel._Ins.ResetUI();
-        //StartPanel._Ins.Show();
+        GameOverPanel._Ins.Show();
 
     }
 
@@ -241,8 +247,25 @@ public class GameCtrl : MonoBehaviour
         }
     }
 
-    public void GameOver(bool isWin)
+    public void InvokeGameOver(bool isWin)
     {
         EC.OnGameOver?.Invoke(CurrPattern,isWin);
+    }
+
+    public void ResetGame()
+    {
+        dishArriveNum = 0;
+        IsAllFoodArrive = false;
+        IsFoodDataRunOut = false;
+        CurrLevelData = null;
+        CurrFoodNum = 0;
+    }
+
+    public bool CheckIfInView(Vector3 worldPos)
+    {
+        Vector3 pos = UIcamera.WorldToViewportPoint(worldPos);
+        if (pos.x < 0f || pos.x > 1f || pos.y <0f || pos.y > 1f)
+            return false;
+        return true;
     }
 }

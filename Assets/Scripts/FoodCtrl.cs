@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UI;
+using System;
 
 /// <summary>
 /// 生成食物
@@ -19,23 +21,25 @@ public class FoodCtrl : MonoBehaviour
     public List<FoodItem> foodList = new List<FoodItem>();
     public List<ConveyorItem> conveyorList = new List<ConveyorItem>();
 
-    public bool isCanCreateFood;
-
     private List<QS_FoodItemData> foodDatas = new List<QS_FoodItemData>(); 
     private Vector3 currPos;
     private int foodDataIndex = 0;
     //private bool isCanBorn;
-    private int timerID;
-
+    private int foodTimerID;
+    private int conveyorTimerID;
     private List<int> targetList = new List<int>();
+
     private void OnEnable()
     {
         GameCtrl._Ins.EC.OnTriggerBornFodd += OnTriggerBorn;
+        //GameCtrl._Ins.EC.OnResetGameData += OnResetGameData;
     }
 
     private void OnDisable()
     {
         GameCtrl._Ins.EC.OnTriggerBornFodd -= OnTriggerBorn;
+        //GameCtrl._Ins.EC.OnResetGameData -= OnResetGameData;
+
     }
 
     public void InitFoodCtrl()
@@ -121,7 +125,7 @@ public class FoodCtrl : MonoBehaviour
     {
 
         // 开始移动履带
-        MoveConveyor();
+        StartBornConveyor();
 
         // 挑战模式的话 需要将tartget食物和普通的食物进行洗牌算法
         if (GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
@@ -180,7 +184,7 @@ public class FoodCtrl : MonoBehaviour
         {
             for (int i = 0; i < foodDatas.Count; i++)
             {
-                index = Random.Range(0, foodDatas.Count);
+                index = UnityEngine.Random.Range(0, foodDatas.Count);
                 iTmp = foodDatas[i];
                 foodDatas[i] = foodDatas[index];
                 foodDatas[index] = iTmp;
@@ -209,25 +213,40 @@ public class FoodCtrl : MonoBehaviour
     public void ResetAll()
     {
         StopBornFood();
+        StopBornConveyor();
         for (int i = 0; i < foodList.Count; i++)
         {
             foodList[i].ResetItem();
-
         }
+        // 回收所有的履带
+        for (int i = 0; i < conveyorList.Count; i++)
+        {
+            conveyorList[i].ResetItem();
+        }
+        // 清空数据
+        foodDatas.Clear();
+        foodDataIndex = 0;
+        targetList.Clear();
     }
 
     public void StartBornFood()
     {
         CreateOneFood(GetOneFoodData());
-        timerID = TimerUtil.SetTimeOut(1f, () => {
+        foodTimerID = TimerUtil.SetTimeOut(1f, () => {
             CreateOneFood(GetOneFoodData());
         }, -1);
     }
 
     public void StopBornFood()
     {
-        TimerUtil.RemoveTimeOutWithCallBack(timerID);
-        TimerUtil.RemoveTimeOut(timerID);
+        TimerUtil.RemoveTimeOutWithCallBack(foodTimerID);
+        TimerUtil.RemoveTimeOut(foodTimerID);
+    }
+
+    public void StopBornConveyor()
+    {
+        TimerUtil.RemoveTimeOutWithCallBack(conveyorTimerID);
+        TimerUtil.RemoveTimeOut(conveyorTimerID);
     }
 
     private void CreateConveyor()
@@ -257,12 +276,96 @@ public class FoodCtrl : MonoBehaviour
 
     }
 
-    public void MoveConveyor()
+    public void StartBornConveyor()
     {
         CreateConveyor();
-        TimerUtil.SetTimeOut(0.2f, () => {
+        conveyorTimerID = TimerUtil.SetTimeOut(0.2f, () => {
 
             CreateConveyor();
         }, -1);
+    }
+
+    public void TriggerPunishment(Action CallBack = null)
+    {
+        StopBornFood();
+        StopBornConveyor();
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            if(foodList[i].isUsing)
+                foodList[i].splineMove.Pause();
+        }
+        for (int i = 0; i < conveyorList.Count; i++)
+        {
+            conveyorList[i].splineMove.Pause();
+        }
+        // 开始效果
+        List<FoodItem> punishList = new List<FoodItem>();
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            if(GameCtrl._Ins.CheckIfInView(foodList[i].transform.position))
+            {
+                foodList[i].GetComponent<Image>().color = Color.red;
+                punishList.Add(foodList[i]);
+
+            }
+        }
+        if(punishList.Count == 0)
+        {
+            CallBack?.Invoke();
+            return;
+        }
+
+        Vector2 pos1,pos2;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2(Screen.width / 2, Screen.height / 2),
+            GameCtrl._Ins.UIcamera, out pos1);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2(Screen.width, Screen.height),
+            GameCtrl._Ins.UIcamera, out pos2);
+        for (int i = 0; i < punishList.Count; i++)
+        {
+
+            punishList[i].transform.DOLocalMove(pos1, 2f);
+        }
+        TimerUtil.SetTimeOut(2f,()=> {
+
+            for (int i = 0; i < punishList.Count; i++)
+            {
+                var item = punishList[i];
+                int index = i;
+                TimerUtil.SetTimeOut(i * 0.3f,()=> {
+                    if(index != punishList.Count - 1)
+                    {
+                        item.transform.DOLocalMove(pos2, 2f).OnComplete(() => {
+
+                            item.ResetItem();
+                        });
+                    }
+                    else
+                    {
+                        // 最后一个加上回调
+                        item.transform.DOLocalMove(pos2, 2f).OnComplete(() => {
+
+                            item.ResetItem();
+                            CallBack?.Invoke();
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    public void PunishmentOver()
+    {
+        StartBornFood();
+        StartBornConveyor();
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            if (foodList[i].isUsing)
+                foodList[i].splineMove.Resume();
+        }
+        for (int i = 0; i < conveyorList.Count; i++)
+        {
+            if (conveyorList[i].isUsing)
+                conveyorList[i].splineMove.Resume();
+        }
     }
 }

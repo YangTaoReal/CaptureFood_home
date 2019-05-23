@@ -13,6 +13,6 @@ public class EventCenter
     public Action<int> OnRefreshCurrDishNum = (dishNum) => { };
     public Action<FoodItem> OnCheckCaptureFood = (food) => { };
     public Action<GamePattern, bool> OnGameOver = (currPattern, isWin) => { };
-
+    public Action OnResetGameData = () => { };
 
 }

@@ -10,7 +10,7 @@ public class TargetItem : MonoBehaviour
     public Text targetText;
     public bool isReachGoal = false;   // 当所有的目标都达到 挑战成功
 
-    private int currNum;
+    private int currNum = 0;
     private int targetNum;
     public void InitItem(string id,string num)
     {
@@ -22,10 +22,12 @@ public class TargetItem : MonoBehaviour
     public void RefreshNum()
     {
         currNum++;
+        Debug.Log($"刷新target数量:currNum = {currNum}");
         if(currNum >= targetNum)
         {
             isReachGoal = true;
         }
+
         targetText.text = currNum + "/" + targetNum;
     }
 
