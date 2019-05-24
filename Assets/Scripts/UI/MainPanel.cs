@@ -62,7 +62,7 @@ public class MainPanel : BasePanel
         base.Show();
         currLevelData = GameCtrl._Ins.GetCurrLevelData();
         RefreshTargetItem(currLevelData.Target);
-        ui_ChallengeNum.text = "0/" + currLevelData.Totalnum;
+        ui_ChallengeNum.text = currLevelData.Totalnum.ToString();
         foodCtrl.StartGame();
     }
 
@@ -83,8 +83,8 @@ public class MainPanel : BasePanel
     #region 观测事件
     private void OnRefreshDishNum(int num)
     {
-        //Debug.Log($"刷新盘子数量:{num}");
-        ui_ChallengeNum.text = num + "/" + currLevelData.Totalnum;
+        //Debug.Log($"到达终点或者被抓住的盘子数量:{num},剩余盘子数量:{currLevelData.Totalnum - num}");
+        ui_ChallengeNum.text = currLevelData.Totalnum - num + "";
     }
 
     private void OnCheckCapturedFood(FoodItem item)
@@ -142,8 +142,9 @@ public class MainPanel : BasePanel
         }
     }
 
-    public void ResetUI()
+    public void ResetData()
     {
+        capturedWrongCount = 0;
         foodCtrl.ResetAll();
         currLevelData = null;
         targetIDList.Clear();

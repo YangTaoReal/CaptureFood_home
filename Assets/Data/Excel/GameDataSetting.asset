@@ -18,31 +18,31 @@ MonoBehaviour:
   sheetName: GameLevelData.xls
   workSheetName: QS_LevelData
   columnHeaderList:
-  - type: 0
+  - type: 3
     name: ID
     isEnable: 0
     isArray: 0
-  - type: 0
+  - type: 3
     name: TotalNum
     isEnable: 0
     isArray: 0
-  - type: 0
+  - type: 1
     name: Target
     isEnable: 0
     isArray: 0
-  - type: 0
+  - type: 1
     name: Pool
     isEnable: 0
     isArray: 0
-  - type: 0
+  - type: 5
     name: MoveSpeed
     isEnable: 0
     isArray: 0
-  - type: 0
+  - type: 5
     name: FoodRate
     isEnable: 0
     isArray: 0
-  - type: 0
+  - type: 5
     name: ConveyorRate
     isEnable: 0
     isArray: 0

@@ -10,13 +10,25 @@ public class GameCtrl : MonoBehaviour
 {
     public static GameCtrl _Ins;
     public EventCenter EC = new EventCenter();
-    public int dishArriveNum;
     //public GameObject mapObj;
 
     public BezierPathManager mapCurve;    // 当前地图的曲线
     public SpriteShapeController mapShape;
     public QS_LevelData QS_LevelDatas;
     public QS_FoodItem QS_FoodItemDatas;
+
+    private int _dishArriveNum;
+    public int DishArriveNum
+    {
+        get { return _dishArriveNum; }
+        set { 
+        
+            _dishArriveNum = value;
+            Debug.Log($"当前arrveNum = {_dishArriveNum},剩余盘子数量:{CurrLevelData.Totalnum - DishArriveNum}");
+        
+        }
+    }
+
 
     private bool _isPause;
     public bool IsPause
@@ -176,8 +188,8 @@ public class GameCtrl : MonoBehaviour
     #region   观测事件
     private void OnOneFoodArriveEnd(FoodItem item)
     {
-        //Debug.Log("盘子到达终点");
-        dishArriveNum++;
+        Debug.Log($"盘子到达终点,dishArriveNum++");
+        DishArriveNum++;
         if(IsFoodDataRunOut )
         {
             bool isAllArrive = true;
@@ -196,7 +208,7 @@ public class GameCtrl : MonoBehaviour
         {
             InvokeGameOver(false);
         }
-        EC.OnRefreshCurrDishNum?.Invoke(dishArriveNum);
+        EC.OnRefreshCurrDishNum?.Invoke(DishArriveNum);
     }
 
     #endregion
@@ -221,7 +233,7 @@ public class GameCtrl : MonoBehaviour
         Debug.Log($"{currPattern}模式结束，是否获胜:{isWin}");
 
         ResetGame();
-        MainPanel._Ins.ResetUI();
+        MainPanel._Ins.ResetData();
         MainPanel._Ins.Close();
         GameOverPanel._Ins.Show();
         EC.OnResetGameData?.Invoke();
@@ -257,7 +269,7 @@ public class GameCtrl : MonoBehaviour
 
     public void ResetGame()
     {
-        dishArriveNum = 0;
+        DishArriveNum = 0;
         IsAllFoodArrive = false;
         IsFoodDataRunOut = false;
         CurrLevelData = null;

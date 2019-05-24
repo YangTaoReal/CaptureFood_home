@@ -22,7 +22,7 @@ public class TargetItem : MonoBehaviour
     public void RefreshNum()
     {
         currNum++;
-        Debug.Log($"刷新target数量:currNum = {currNum}");
+        //Debug.Log($"刷新target数量:currNum = {currNum}");
         if(currNum >= targetNum)
         {
             isReachGoal = true;

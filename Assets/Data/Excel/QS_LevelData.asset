@@ -20,3 +20,12 @@ MonoBehaviour:
     target: 10001,1|10002,1|10003,1
     pool: 10001,8|10002,8|10003,8|10004,10|10005,10
     movespeed: 5
+    foodrate: 1
+    conveyorrate: 0.2
+  - id: 10001
+    totalnum: 25
+    target: 10005,2|10004,2|10003,2
+    pool: 10001,5|10002,5|10003,5|10004,5|10005,5
+    movespeed: 3
+    foodrate: 0.8
+    conveyorrate: 0.3

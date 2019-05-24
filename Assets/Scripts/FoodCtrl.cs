@@ -311,6 +311,7 @@ public class FoodCtrl : MonoBehaviour
         }
         if(punishList.Count == 0)
         {
+            Debug.Log($"punishList.Count = 0,直接return了");
             CallBack?.Invoke();
             return;
         }
@@ -322,7 +323,7 @@ public class FoodCtrl : MonoBehaviour
             GameCtrl._Ins.UIcamera, out pos2);
         for (int i = 0; i < punishList.Count; i++)
         {
-
+            punishList[i].boxcollider.enabled = false;
             punishList[i].transform.DOLocalMove(pos1, 0.5f);
         }
         TimerUtil.SetTimeOut(0.5f,()=> {
@@ -330,6 +331,7 @@ public class FoodCtrl : MonoBehaviour
             for (int i = 0; i < punishList.Count; i++)
             {
                 var item = punishList[i];
+
                 int index = i;
                 TimerUtil.SetTimeOut(i * 0.2f,()=> {
                     if(index != punishList.Count - 1)
@@ -337,6 +339,9 @@ public class FoodCtrl : MonoBehaviour
                         item.transform.DOLocalMove(pos2, 0.5f).OnComplete(() => {
 
                             item.ResetItem();
+                            Debug.Log($"惩罚废除了dishArriveNum++");
+                            GameCtrl._Ins.DishArriveNum++;
+                            GameCtrl._Ins.EC.OnRefreshCurrDishNum?.Invoke(GameCtrl._Ins.DishArriveNum);
                         });
                     }
                     else
@@ -345,6 +350,9 @@ public class FoodCtrl : MonoBehaviour
                         item.transform.DOLocalMove(pos2, 0.5f).OnComplete(() => {
 
                             item.ResetItem();
+                            Debug.Log($"惩罚废除了dishArriveNum++");
+                            GameCtrl._Ins.DishArriveNum++;
+                            GameCtrl._Ins.EC.OnRefreshCurrDishNum?.Invoke(GameCtrl._Ins.DishArriveNum);
                             CallBack?.Invoke();
                         });
                     }

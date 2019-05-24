@@ -123,6 +123,9 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
             ComeBack(()=> {
 
                 item.ResetItem();
+                Debug.Log($"被抓住了,dishArriveNum++");
+                GameCtrl._Ins.DishArriveNum++;
+                GameCtrl._Ins.EC.OnRefreshCurrDishNum?.Invoke(GameCtrl._Ins.DishArriveNum);
                 GameCtrl._Ins.EC.OnCheckCaptureFood?.Invoke(item);
                 //Destroy(item.gameObject);
             });
