@@ -232,7 +232,7 @@ public class FoodCtrl : MonoBehaviour
     public void StartBornFood()
     {
         CreateOneFood(GetOneFoodData());
-        foodTimerID = TimerUtil.SetTimeOut(1f, () => {
+        foodTimerID = TimerUtil.SetTimeOut(GameCtrl._Ins.CurrLevelData.Foodrate, () => {
             CreateOneFood(GetOneFoodData());
         }, -1);
     }
@@ -279,7 +279,7 @@ public class FoodCtrl : MonoBehaviour
     public void StartBornConveyor()
     {
         CreateConveyor();
-        conveyorTimerID = TimerUtil.SetTimeOut(0.2f, () => {
+        conveyorTimerID = TimerUtil.SetTimeOut(GameCtrl._Ins.CurrLevelData.Conveyorrate, () => {
 
             CreateConveyor();
         }, -1);
@@ -304,7 +304,7 @@ public class FoodCtrl : MonoBehaviour
         {
             if(GameCtrl._Ins.CheckIfInView(foodList[i].transform.position))
             {
-                foodList[i].GetComponent<Image>().color = Color.red;
+                //foodList[i].GetComponent<Image>().color = Color.red;
                 punishList.Add(foodList[i]);
 
             }
@@ -323,18 +323,18 @@ public class FoodCtrl : MonoBehaviour
         for (int i = 0; i < punishList.Count; i++)
         {
 
-            punishList[i].transform.DOLocalMove(pos1, 2f);
+            punishList[i].transform.DOLocalMove(pos1, 0.5f);
         }
-        TimerUtil.SetTimeOut(2f,()=> {
+        TimerUtil.SetTimeOut(0.5f,()=> {
 
             for (int i = 0; i < punishList.Count; i++)
             {
                 var item = punishList[i];
                 int index = i;
-                TimerUtil.SetTimeOut(i * 0.3f,()=> {
+                TimerUtil.SetTimeOut(i * 0.2f,()=> {
                     if(index != punishList.Count - 1)
                     {
-                        item.transform.DOLocalMove(pos2, 2f).OnComplete(() => {
+                        item.transform.DOLocalMove(pos2, 0.5f).OnComplete(() => {
 
                             item.ResetItem();
                         });
@@ -342,7 +342,7 @@ public class FoodCtrl : MonoBehaviour
                     else
                     {
                         // 最后一个加上回调
-                        item.transform.DOLocalMove(pos2, 2f).OnComplete(() => {
+                        item.transform.DOLocalMove(pos2, 0.5f).OnComplete(() => {
 
                             item.ResetItem();
                             CallBack?.Invoke();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CheckPart : MonoBehaviour
 {
-    private float timer = 0.1f;
+    private float timer = 0.2f;
     private float curTime;
     private bool hasChecked;
     private bool isNeedCheck;

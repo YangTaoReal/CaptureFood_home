@@ -28,4 +28,12 @@ public class QS_LevelDataData
   float movespeed;
   public float Movespeed { get {return movespeed; } set { movespeed = value;} }
   
+  [SerializeField]
+  float foodrate;
+  public float Foodrate { get {return foodrate; } set { foodrate = value;} }
+  
+  [SerializeField]
+  float conveyorrate;
+  public float Conveyorrate { get {return conveyorrate; } set { conveyorrate = value;} }
+  
 }

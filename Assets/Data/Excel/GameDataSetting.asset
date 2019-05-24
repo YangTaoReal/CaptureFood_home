@@ -12,30 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e14a72067f1ad408ec8d661bc560ce, type: 3}
   m_Name: GameDataSetting
   m_EditorClassIdentifier: 
-  templatePath: Third_Party/QuickSheet/ExcelPlugin/Templates
+  templatePath: QuickSheet/ExcelPlugin/Templates
   scriptFilePath: Data/RunTime
   editorScriptFilePath: Data/Editor
   sheetName: GameLevelData.xls
   workSheetName: QS_LevelData
   columnHeaderList:
-  - type: 3
+  - type: 0
     name: ID
     isEnable: 0
     isArray: 0
-  - type: 3
+  - type: 0
     name: TotalNum
     isEnable: 0
     isArray: 0
-  - type: 1
+  - type: 0
     name: Target
     isEnable: 0
     isArray: 0
-  - type: 1
+  - type: 0
     name: Pool
     isEnable: 0
     isArray: 0
-  - type: 5
+  - type: 0
     name: MoveSpeed
+    isEnable: 0
+    isArray: 0
+  - type: 0
+    name: FoodRate
+    isEnable: 0
+    isArray: 0
+  - type: 0
+    name: ConveyorRate
     isEnable: 0
     isArray: 0
   excelFilePath: Assets/Data/Excel/GameLevelData.xls

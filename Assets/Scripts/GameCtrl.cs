@@ -55,7 +55,7 @@ public class GameCtrl : MonoBehaviour
         }
     }
 
-    private int _currLevel = 0;   // 当前关卡
+    private int _currLevel = 1;   // 当前关卡
     public int CurrLevel
     {
         get { return _currLevel;}
@@ -123,8 +123,8 @@ public class GameCtrl : MonoBehaviour
 
     public void StartGame(GamePattern pattern)
     {
-        Debug.Log("start game");
-        CurrLevel = PlayerPrefs.GetInt("CurrLevel",1);
+        Debug.Log($"start game,level:{CurrLevel}");
+        //CurrLevel = PlayerPrefs.GetInt("CurrLevel",1);
         CurrLevelData = GetCurrLevelData();
         CurrPattern = pattern;
         CreatePathBySpriteShape();
@@ -222,7 +222,9 @@ public class GameCtrl : MonoBehaviour
 
         ResetGame();
         MainPanel._Ins.ResetUI();
+        MainPanel._Ins.Close();
         GameOverPanel._Ins.Show();
+        EC.OnResetGameData?.Invoke();
 
     }
 
@@ -249,6 +251,7 @@ public class GameCtrl : MonoBehaviour
 
     public void InvokeGameOver(bool isWin)
     {
+        // 游戏结束 在这里重置游戏数据
         EC.OnGameOver?.Invoke(CurrPattern,isWin);
     }
 

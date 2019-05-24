@@ -46,15 +46,17 @@ public class GameOverPanel : BasePanel
     {
         ui_NextLevelBtn.onClick.AddListener(() =>
         {
-
+            GameCtrl._Ins.CurrLevel++;
+            GameCtrl._Ins.StartGame(GameCtrl._Ins.CurrPattern);
+            Close();
         });
 
         ui_BackToMainBtn.onClick.AddListener(() =>
         {
             Close();
-            MainPanel._Ins.Close();
             StartPanel._Ins.Show();
-            GameCtrl._Ins.EC.OnResetGameData?.Invoke();
+            //MainPanel._Ins.Close();
+            //GameCtrl._Ins.EC.OnResetGameData?.Invoke();
         });
     }
 }

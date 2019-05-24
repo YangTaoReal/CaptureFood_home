@@ -183,8 +183,7 @@ public class MainPanel : BasePanel
     // 触发惩罚机制
     private void TriggerPunishment()
     {
-        //foodCtrl.StopBornFood();
-        //foodCtrl.StopBornConveyor();
+
         foodCtrl.TriggerPunishment(()=> {
 
             //Debug.Log("惩罚结束的回调");
