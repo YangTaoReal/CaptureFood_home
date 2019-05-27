@@ -97,6 +97,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
             isPress = false;
             isBacking = false;
             CallBack?.Invoke();
+            GameCtrl._Ins.CheckIfGameOver();
             GameCtrl._Ins.EC.OnHandComeBackOver?.Invoke();
         });
     }

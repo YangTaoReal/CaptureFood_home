@@ -231,7 +231,7 @@ public class FoodCtrl : MonoBehaviour
 
     public void StartBornFood()
     {
-        CreateOneFood(GetOneFoodData());
+        //CreateOneFood(GetOneFoodData());
         foodTimerID = TimerUtil.SetTimeOut(GameCtrl._Ins.CurrLevelData.Foodrate, () => {
             CreateOneFood(GetOneFoodData());
         }, -1);
@@ -278,7 +278,7 @@ public class FoodCtrl : MonoBehaviour
 
     public void StartBornConveyor()
     {
-        CreateConveyor();
+        //CreateConveyor();
         conveyorTimerID = TimerUtil.SetTimeOut(GameCtrl._Ins.CurrLevelData.Conveyorrate, () => {
 
             CreateConveyor();
@@ -302,9 +302,11 @@ public class FoodCtrl : MonoBehaviour
         List<FoodItem> punishList = new List<FoodItem>();
         for (int i = 0; i < foodList.Count; i++)
         {
+            if (!foodList[i].isUsing)
+                continue;
             if(GameCtrl._Ins.CheckIfInView(foodList[i].transform.position))
             {
-                //foodList[i].GetComponent<Image>().color = Color.red;
+                foodList[i].GetComponent<Image>().color = Color.red;
                 punishList.Add(foodList[i]);
 
             }
@@ -324,7 +326,7 @@ public class FoodCtrl : MonoBehaviour
         for (int i = 0; i < punishList.Count; i++)
         {
             punishList[i].boxcollider.enabled = false;
-            punishList[i].transform.DOLocalMove(pos1, 0.5f);
+            //punishList[i].transform.DOLocalMove(pos1, 0.5f);
         }
         TimerUtil.SetTimeOut(0.5f,()=> {
 
@@ -339,7 +341,8 @@ public class FoodCtrl : MonoBehaviour
                         item.transform.DOLocalMove(pos2, 0.5f).OnComplete(() => {
 
                             item.ResetItem();
-                            Debug.Log($"惩罚废除了dishArriveNum++");
+                            item.GetComponent<Image>().color = Color.white;
+                            Debug.Log($"惩罚废除了dishArriveNum++,惩罚销毁数量:{punishList.Count}");
                             GameCtrl._Ins.DishArriveNum++;
                             GameCtrl._Ins.EC.OnRefreshCurrDishNum?.Invoke(GameCtrl._Ins.DishArriveNum);
                         });
@@ -350,7 +353,8 @@ public class FoodCtrl : MonoBehaviour
                         item.transform.DOLocalMove(pos2, 0.5f).OnComplete(() => {
 
                             item.ResetItem();
-                            Debug.Log($"惩罚废除了dishArriveNum++");
+                            item.GetComponent<Image>().color = Color.white;
+                            Debug.Log($"惩罚废除了dishArriveNum++,惩罚销毁数量:{punishList.Count}");
                             GameCtrl._Ins.DishArriveNum++;
                             GameCtrl._Ins.EC.OnRefreshCurrDishNum?.Invoke(GameCtrl._Ins.DishArriveNum);
                             CallBack?.Invoke();

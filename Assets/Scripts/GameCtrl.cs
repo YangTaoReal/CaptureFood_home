@@ -138,10 +138,20 @@ public class GameCtrl : MonoBehaviour
         Debug.Log($"start game,level:{CurrLevel}");
         //CurrLevel = PlayerPrefs.GetInt("CurrLevel",1);
         CurrLevelData = GetCurrLevelData();
-        CurrPattern = pattern;
-        CreatePathBySpriteShape();
-        MainPanel._Ins.BeginGame();
-        Player._Ins.InitPlayer();
+        if (CurrLevelData != null)
+        {
+
+            CurrPattern = pattern;
+            CreatePathBySpriteShape();
+            MainPanel._Ins.BeginGame();
+            Player._Ins.InitPlayer();
+        }
+        else
+        {
+            Debug.Log($"已到达最后一关，没有更高的关卡了");
+            MainPanel._Ins.Close();
+            StartPanel._Ins.Show();
+        }
     }
 
     public void CreatePathBySpriteShape()
@@ -190,24 +200,25 @@ public class GameCtrl : MonoBehaviour
     {
         Debug.Log($"盘子到达终点,dishArriveNum++");
         DishArriveNum++;
-        if(IsFoodDataRunOut )
-        {
-            bool isAllArrive = true;
-            for (int i = 0; i < MainPanel._Ins.foodCtrl.foodList.Count; i++)
-            {
-                if (MainPanel._Ins.foodCtrl.foodList[i].isUsing)
-                {
-                    isAllArrive = false; 
-                    break;
-                }
-            }
-            if(isAllArrive)
-                IsAllFoodArrive = true;
-        }
-        if (IsFoodDataRunOut && IsAllFoodArrive)
-        {
-            InvokeGameOver(false);
-        }
+        CheckIfGameOver();
+        //if(IsFoodDataRunOut )
+        //{
+        //    bool isAllArrive = true;
+        //    for (int i = 0; i < MainPanel._Ins.foodCtrl.foodList.Count; i++)
+        //    {
+        //        if (MainPanel._Ins.foodCtrl.foodList[i].isUsing)
+        //        {
+        //            isAllArrive = false; 
+        //            break;
+        //        }
+        //    }
+        //    if(isAllArrive)
+        //        IsAllFoodArrive = true;
+        //}
+        //if (IsFoodDataRunOut && IsAllFoodArrive)
+        //{
+        //    InvokeGameOver(false);
+        //}
         EC.OnRefreshCurrDishNum?.Invoke(DishArriveNum);
     }
 
@@ -215,6 +226,10 @@ public class GameCtrl : MonoBehaviour
 
     public QS_LevelDataData GetCurrLevelData()
     {
+        if (CurrLevel > QS_LevelDatas.dataArray.Length)
+        {
+            return null;
+        }
         return QS_LevelDatas.dataArray[CurrLevel - 1];
     }
 
@@ -282,5 +297,27 @@ public class GameCtrl : MonoBehaviour
         if (pos.x < 0f || pos.x > 1f || pos.y <0f || pos.y > 1f)
             return false;
         return true;
+    }
+
+    public void CheckIfGameOver()
+    {
+        if (IsFoodDataRunOut)
+        {
+            bool isAllArrive = true;
+            for (int i = 0; i < MainPanel._Ins.foodCtrl.foodList.Count; i++)
+            {
+                if (MainPanel._Ins.foodCtrl.foodList[i].isUsing)
+                {
+                    isAllArrive = false;
+                    break;
+                }
+            }
+            if (isAllArrive)
+                IsAllFoodArrive = true;
+        }
+        if (IsFoodDataRunOut && IsAllFoodArrive)
+        {
+            InvokeGameOver(false);
+        }
     }
 }
