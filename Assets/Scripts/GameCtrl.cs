@@ -11,7 +11,7 @@ public class GameCtrl : MonoBehaviour
     public static GameCtrl _Ins;
     public EventCenter EC = new EventCenter();
     //public GameObject mapObj;
-
+    [HideInInspector]
     public BezierPathManager mapCurve;    // 当前地图的曲线
     public SpriteShapeController mapShape;
     public QS_LevelData QS_LevelDatas;
@@ -24,7 +24,7 @@ public class GameCtrl : MonoBehaviour
         set { 
         
             _dishArriveNum = value;
-            Debug.Log($"当前arrveNum = {_dishArriveNum},剩余盘子数量:{CurrLevelData.Totalnum - DishArriveNum}");
+            //Debug.Log($"当前arrveNum = {_dishArriveNum},剩余盘子数量:{CurrLevelData.Totalnum - DishArriveNum}");
         
         }
     }
@@ -156,29 +156,34 @@ public class GameCtrl : MonoBehaviour
 
     public void CreatePathBySpriteShape()
     {
-        //GameObject newPath = new GameObject("Path7 (Runtime Creation)");
-        //mapCurve = mapObj.AddComponent<PathManager>();
+        // 根据配置 动态加载map
+        if(mapShape != null)
+            Destroy(mapShape.gameObject);
+        var obj = Resources.Load<GameObject>(CurrLevelData.Map);
+        mapShape = Instantiate(obj, Vector3.zero,Quaternion.identity).GetComponent<SpriteShapeController>();
         mapCurve = mapShape.GetComponentInChildren<BezierPathManager>();
-        List<Vector3> pointList = new List<Vector3>();
+        mapCurve.name = "WayPath" + CurrLevel;
+        mapShape.gameObject.SetActive(true);
+        //List<Vector3> pointList = new List<Vector3>();
         //List<Vector3> leftList = new List<Vector3>();
         //List<Vector3> rightList = new List<Vector3>();
-        for (int i = 0; i < mapShape.spline.GetPointCount() - 1; i++)
-        {
-            pointList.Add(mapShape.spline.GetPosition(i));
+        //for (int i = 0; i < mapShape.spline.GetPointCount() - 1; i++)
+        //{
+            //pointList.Add(mapShape.spline.GetPosition(i));
             //leftList.Add(mapShape.spline.GetLeftTangent(i));
             //rightList.Add(mapShape.spline.GetLeftTangent(i));
-        }
+        //}
         //BezierPoint[] beziers = new BezierPoint[pointList.Count];
-        Transform[] wayPoints = new Transform[pointList.Count];
-        for (int i = 0; i < wayPoints.Length; i++)
-        {
-            GameObject obj = new GameObject("WayPoint" + i);
+        //Transform[] wayPoints = new Transform[pointList.Count];
+        //for (int i = 0; i < wayPoints.Length; i++)
+        //{
+            //GameObject obj = new GameObject("WayPoint" + i);
             //GameObject left = new GameObject("left" + i);
             //GameObject right = new GameObject("right" + i);
             //left.transform.SetParent(obj.transform);
             //right.transform.SetParent(obj.transform);
-            wayPoints[i] = obj.transform;
-            wayPoints[i].position = pointList[i];
+           //wayPoints[i] = obj.transform;
+            //wayPoints[i].position = pointList[i];
 
             //wayPoints[i] = obj.transform;
             //wayPoints[i].position = pointList[i];
@@ -188,7 +193,7 @@ public class GameCtrl : MonoBehaviour
             //var r =wayPoints[i].GetChild(1);
             //r = right.transform;
             //wayPoints[i].GetChild(1).transform.position = rightList[i];
-        }
+        //}
         //mapCurve.Create(wayPoints, true);
         //mapCurve.gameObject.AddComponent<PathRenderer>();
         //mapCurve.GetComponent<LineRenderer>().material = new Material(Shader.Find("Sprites/Default"));
@@ -198,7 +203,7 @@ public class GameCtrl : MonoBehaviour
     #region   观测事件
     private void OnOneFoodArriveEnd(FoodItem item)
     {
-        Debug.Log($"盘子到达终点,dishArriveNum++");
+        //Debug.Log($"盘子到达终点,dishArriveNum++");
         DishArriveNum++;
         CheckIfGameOver();
         //if(IsFoodDataRunOut )
@@ -288,6 +293,7 @@ public class GameCtrl : MonoBehaviour
         IsAllFoodArrive = false;
         IsFoodDataRunOut = false;
         CurrLevelData = null;
+        mapShape.gameObject.SetActive(false);
         CurrFoodNum = 0;
     }
 

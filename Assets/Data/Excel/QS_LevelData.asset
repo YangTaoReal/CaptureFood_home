@@ -22,6 +22,7 @@ MonoBehaviour:
     movespeed: 5
     foodrate: 1
     conveyorrate: 0.2
+    map: Maps/Map02
   - id: 10001
     totalnum: 25
     target: 10005,2|10004,2|10003,2
@@ -29,3 +30,4 @@ MonoBehaviour:
     movespeed: 3
     foodrate: 0.8
     conveyorrate: 0.3
+    map: Maps/Map02

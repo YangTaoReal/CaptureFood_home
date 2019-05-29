@@ -79,8 +79,10 @@ public class FoodItem : MonoBehaviour
         isUsing = false;
         gameObject.SetActive(false);
         boxcollider.enabled = false;
+        splineMove.ResetToStart();
+        splineMove.speed = 0;
         splineMove.Stop();
-        //splineMove.speed = 0;
+        splineMove.enabled = false;
         transform.SetParent(MainPanel._Ins.foodCtrl.transform);
         foodInfo.FOODSTATE = FoodState.Free;
 

@@ -35,6 +35,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
 
     public void InitPlayer()
     {
+        transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
         InitGameEvent();
     }
     private void InitGameEvent()

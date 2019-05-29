@@ -24,4 +24,8 @@ public class QS_FoodItemData
   FoodState foodstate;
   public FoodState FOODSTATE { get {return foodstate; } set { foodstate = value;} }
   
+  [SerializeField]
+  int fat;
+  public int Fat { get {return fat; } set { fat = value;} }
+  
 }

@@ -36,4 +36,8 @@ public class QS_LevelDataData
   float conveyorrate;
   public float Conveyorrate { get {return conveyorrate; } set { conveyorrate = value;} }
   
+  [SerializeField]
+  string map;
+  public string Map { get {return map; } set { map = value;} }
+  
 }

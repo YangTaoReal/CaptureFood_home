@@ -216,15 +216,18 @@ public class FoodCtrl : MonoBehaviour
         StopBornConveyor();
         for (int i = 0; i < foodList.Count; i++)
         {
-            foodList[i].ResetItem();
+            Destroy(foodList[i].gameObject);
         }
         // 回收所有的履带
         for (int i = 0; i < conveyorList.Count; i++)
         {
-            conveyorList[i].ResetItem();
+            //conveyorList[i].ResetItem();
+            Destroy(conveyorList[i].gameObject);
         }
         // 清空数据
         foodDatas.Clear();
+        foodList.Clear();
+        conveyorList.Clear();
         foodDataIndex = 0;
         targetList.Clear();
     }
