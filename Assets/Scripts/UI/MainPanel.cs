@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainPanel : BasePanel
 {
-    public Text ui_ChallengeNum;
+    public Text ui_ShowText;
+    public Text ui_Title;
     public Transform ui_TargetTR;
     public Transform ui_ConveyorTR;
     public FoodCtrl foodCtrl;
@@ -61,9 +63,26 @@ public class MainPanel : BasePanel
     {
         base.Show();
         currLevelData = GameCtrl._Ins.GetCurrLevelData();
-        RefreshTargetItem(currLevelData.Target);
-        ui_ChallengeNum.text = currLevelData.Totalnum.ToString();
         foodCtrl.StartGame();
+        if (GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
+        {
+            ui_Title.text = "剩余盘数";
+
+            RefreshTargetItem(currLevelData.Target);
+            ui_ShowText.text = currLevelData.Totalnum.ToString();
+        }
+        else
+        {
+            ui_Title.text = "剩余时间";
+            //ui_ShowText.text = 
+            //TimerUtil.SetTimeOut(1f,);
+        }
+    }
+
+    private string TransformTimeFormat(int time)
+    {
+        //DateTime.
+        return "";
     }
 
     private void RefreshTargetItem(string target)
@@ -84,7 +103,7 @@ public class MainPanel : BasePanel
     private void OnRefreshDishNum(int num)
     {
         //Debug.Log($"到达终点或者被抓住的盘子数量:{num},剩余盘子数量:{currLevelData.Totalnum - num}");
-        ui_ChallengeNum.text = currLevelData.Totalnum - num + "";
+        ui_ShowText.text = currLevelData.Totalnum - num + "";
     }
 
     private void OnCheckCapturedFood(FoodItem item)

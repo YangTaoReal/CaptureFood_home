@@ -18,7 +18,7 @@ MonoBehaviour:
   sheetName: DisperseConfig.xls
   workSheetName: QS_DisperseConfig
   columnHeaderList:
-  - type: 3
+  - type: 1
     name: ID
     isEnable: 0
     isArray: 0

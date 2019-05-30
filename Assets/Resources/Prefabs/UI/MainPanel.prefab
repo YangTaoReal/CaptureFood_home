@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 9050587939160944846}
   - component: {fileID: 3862284830339471693}
   m_Layer: 5
-  m_Name: ChallengeNum (1)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -740,7 +740,7 @@ GameObject:
   - component: {fileID: 2310477928352982486}
   - component: {fileID: 6068566333881363604}
   m_Layer: 5
-  m_Name: ChallengeNum
+  m_Name: ShowText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -762,7 +762,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.002357483, y: -18.004982}
+  m_AnchoredPosition: {x: -0.002357483, y: -24}
   m_SizeDelta: {x: 195.92, y: 72.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2310477928352982486
@@ -806,7 +806,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 99
+  m_Text: 00:30
 --- !u!1 &3482167581974125525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,11 +1019,13 @@ MonoBehaviour:
   handImg: {fileID: 4614250413866925562}
   checkImg: {fileID: 4614250414206563865}
   playerImg: {fileID: 4614250412422961408}
+  fatImg: {fileID: 4376036150450322314}
   captureTR: {fileID: 4614250413174496592}
   upSpeed: 2000
   downSpeed: 1500
   isCaptured: 0
   isBacking: 0
+  curFatValue: 0
 --- !u!1 &4614250412537991745
 GameObject:
   m_ObjectHideFlags: 0

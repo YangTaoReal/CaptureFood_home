@@ -15,7 +15,7 @@ MonoBehaviour:
   SheetName: Assets/Data/Excel/DisperseConfig.xls
   WorksheetName: QS_DisperseConfig
   dataArray:
-  - id: 10001
-    describe: 0,20,1|21,40,2|40,99999,3
-  - id: 10002
-    describe: "\u4E3A\u4EC0\u4E48\u6CA1\u6709\u6570\u636E\u5462\uFF1F"
+  - id: "\u80A5\u80D6\u5EA6\u6570\u503C"
+    describe: 0,4,120|5,9,150|10,99999,180
+  - id: "\u65F6\u95F4\u6A21\u5F0F\u65F6\u95F4\u5206\u7C7B"
+    describe: 20,30,40

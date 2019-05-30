@@ -13,16 +13,20 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
     public Image handImg;
     public Image checkImg;
     public Image playerImg;
+    public Image fatImg;
     public Transform captureTR;
 
     public float upSpeed = 10;
     public float downSpeed = 20;
     public bool isCaptured;     // 已经抓住物体
     public bool isBacking;
+    public float curFatValue;
+
     private bool isPress;
     private bool isDraging;
     private Vector2 sizeData;
     private Vector2 offset;
+    private float startFatValue;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -31,22 +35,24 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
     void Start()
     {
         sizeData = handImg.rectTransform.sizeDelta;
+        startFatValue = fatImg.rectTransform.sizeDelta.y;
+        Debug.Log($"出事肥胖程度:{startFatValue}");
     }
 
     public void InitPlayer()
     {
-        transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
         InitGameEvent();
     }
     private void InitGameEvent()
     {
         GameCtrl._Ins.EC.OnCaptureFood += OnCapturedFood;
-
+        GameCtrl._Ins.EC.OnCheckCaptureFood += CheckFatValue;
     }
 
     private void OnDisable()
     {
         GameCtrl._Ins.EC.OnCaptureFood -= OnCapturedFood;
+        GameCtrl._Ins.EC.OnCheckCaptureFood -= CheckFatValue;
 
     }
 
@@ -191,6 +197,37 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
         isDraging = true;
     }
 
+    private void CheckFatValue(FoodItem item)
+    {
+        var fat = item.foodInfo.Fat;
+        curFatValue += fat;
+        string target = GameCtrl._Ins.QS_DisperseDatas.dataArray[0].Describe;
+        string[] levels = target.Split('|');
+        for (int i = levels.Length - 1; i >= 0; i--)
+        {
+            string[] oneFat = levels[i].Split(',');
+            if(curFatValue >= int.Parse(oneFat[0]) && curFatValue < int.Parse(oneFat[1]))
+            {
+                ChangeFat(float.Parse(oneFat[2]));
+            }
+        }
+        Debug.Log($"当前肥胖值:{curFatValue}");
+    }
+
     #endregion
 
+    public void ChangeFat(float height)
+    {
+        var size = fatImg.rectTransform.sizeDelta;
+        fatImg.rectTransform.DOSizeDelta(new Vector2(size.x, height), 2f);
+    }
+
+    public void ResetPlayer()
+    {
+        transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
+        fatImg.rectTransform.sizeDelta = new Vector2(fatImg.rectTransform.sizeDelta.x, startFatValue);
+        curFatValue = 0;
+        Debug.Log($"恢复肥胖程度:{fatImg.rectTransform.sizeDelta}");
+
+    }
 }

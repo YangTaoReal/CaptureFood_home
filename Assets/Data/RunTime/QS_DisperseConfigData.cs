@@ -9,8 +9,8 @@ using System.Collections;
 public class QS_DisperseConfigData
 {
   [SerializeField]
-  int id;
-  public int ID { get {return id; } set { id = value;} }
+  string id;
+  public string ID { get {return id; } set { id = value;} }
   
   [SerializeField]
   string describe;

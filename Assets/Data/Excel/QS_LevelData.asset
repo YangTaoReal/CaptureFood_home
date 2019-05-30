@@ -31,3 +31,11 @@ MonoBehaviour:
     foodrate: 0.8
     conveyorrate: 0.3
     map: Maps/Map02
+  - id: 0
+    totalnum: 0
+    target: 
+    pool: 
+    movespeed: 0
+    foodrate: 0
+    conveyorrate: 0
+    map: 

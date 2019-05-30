@@ -14,8 +14,10 @@ public class GameCtrl : MonoBehaviour
     [HideInInspector]
     public BezierPathManager mapCurve;    // 当前地图的曲线
     public SpriteShapeController mapShape;
+    [Header("=========配置数据==========")]
     public QS_LevelData QS_LevelDatas;
     public QS_FoodItem QS_FoodItemDatas;
+    public QS_DisperseConfig QS_DisperseDatas;
 
     private int _dishArriveNum;
     public int DishArriveNum
@@ -256,6 +258,7 @@ public class GameCtrl : MonoBehaviour
         MainPanel._Ins.ResetData();
         MainPanel._Ins.Close();
         GameOverPanel._Ins.Show();
+        Player._Ins.ResetPlayer();
         EC.OnResetGameData?.Invoke();
 
     }

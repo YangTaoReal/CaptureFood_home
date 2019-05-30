@@ -379,6 +379,7 @@ MonoBehaviour:
   mapShape: {fileID: 0}
   QS_LevelDatas: {fileID: 11400000, guid: 4847c373b235548c0b8e03e9b793b17c, type: 2}
   QS_FoodItemDatas: {fileID: 11400000, guid: 5a1f4a96b96e0405da08fa02d539ddf2, type: 2}
+  QS_DisperseDatas: {fileID: 11400000, guid: d4a4146c13d7143ca950f62c8a235161, type: 2}
 --- !u!4 &700487027
 Transform:
   m_ObjectHideFlags: 0
