@@ -48,5 +48,11 @@ public class StartPanel : BasePanel
             GameCtrl._Ins.StartGame(GamePattern.Challenge);
             Close();
         });
+
+        ui_TimeBtn.onClick.AddListener(()=> {
+
+            GameCtrl._Ins.StartGame(GamePattern.Time);
+            Close();
+        });
     }
 }

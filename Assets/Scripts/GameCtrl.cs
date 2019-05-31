@@ -14,10 +14,19 @@ public class GameCtrl : MonoBehaviour
     [HideInInspector]
     public BezierPathManager mapCurve;    // 当前地图的曲线
     public SpriteShapeController mapShape;
+    // 时间模式数据
+    public string[] timeSpeedGroup;
+    public int timer;
+    public string[] scoreGroup;
+    public string[] cookBookGroup;
+
+
     [Header("=========配置数据==========")]
     public QS_LevelData QS_LevelDatas;
     public QS_FoodItem QS_FoodItemDatas;
     public QS_DisperseConfig QS_DisperseDatas;
+
+
 
     private int _dishArriveNum;
     public int DishArriveNum
@@ -31,6 +40,19 @@ public class GameCtrl : MonoBehaviour
         }
     }
 
+    private int _currScore;
+    public int CurrScore
+    {
+        get { return _currScore; }
+        set { _currScore = value; }
+    }
+
+    private bool _isGameOver;
+    public bool IsGameOver
+    {
+        get { return _isGameOver; }
+        set { _isGameOver = value; }
+    }
 
     private bool _isPause;
     public bool IsPause
@@ -139,20 +161,30 @@ public class GameCtrl : MonoBehaviour
     {
         Debug.Log($"start game,level:{CurrLevel}");
         //CurrLevel = PlayerPrefs.GetInt("CurrLevel",1);
+        IsGameOver = false;
+        CurrPattern = pattern;
         CurrLevelData = GetCurrLevelData();
-        if (CurrLevelData != null)
+        if (pattern == GamePattern.Challenge)
         {
-
-            CurrPattern = pattern;
-            CreatePathBySpriteShape();
-            MainPanel._Ins.BeginGame();
-            Player._Ins.InitPlayer();
+            if (CurrLevelData != null)
+            {
+                CreatePathBySpriteShape();
+                MainPanel._Ins.BeginGame();
+                Player._Ins.InitPlayer();
+            }
+            else
+            {
+                Debug.Log($"已到达最后一关，没有更高的关卡了");
+                MainPanel._Ins.Close();
+                StartPanel._Ins.Show();
+            }
         }
         else
         {
-            Debug.Log($"已到达最后一关，没有更高的关卡了");
-            MainPanel._Ins.Close();
-            StartPanel._Ins.Show();
+            // 时间模式
+            CreatePathBySpriteShape();
+            MainPanel._Ins.BeginGame();
+            Player._Ins.InitPlayer();
         }
     }
 
@@ -253,7 +285,7 @@ public class GameCtrl : MonoBehaviour
     private void OnGameOver(GamePattern currPattern,bool isWin)
     {
         Debug.Log($"{currPattern}模式结束，是否获胜:{isWin}");
-
+        IsGameOver = true;
         ResetGame();
         MainPanel._Ins.ResetData();
         MainPanel._Ins.Close();
@@ -293,6 +325,7 @@ public class GameCtrl : MonoBehaviour
     public void ResetGame()
     {
         DishArriveNum = 0;
+        CurrScore = 0;
         IsAllFoodArrive = false;
         IsFoodDataRunOut = false;
         CurrLevelData = null;
@@ -329,4 +362,36 @@ public class GameCtrl : MonoBehaviour
             InvokeGameOver(false);
         }
     }
+
+    public string GetDisperseData(string id)
+    {
+        for (int i = 0; i < QS_DisperseDatas.dataArray.Length; i++)
+        {
+            QS_DisperseConfigData data = QS_DisperseDatas.dataArray[i];
+            string[] head = data.ID.Split('|');
+            if(id == head[0])
+            {
+                return data.Describe;
+            }
+        }
+        return "";
+    }
+
+    public void AddScore(int score)
+    {
+        CurrScore += score;
+        if(CurrScore > int.Parse(scoreGroup[0]))
+        {
+            MainPanel._Ins.ui_Target1.color = Color.green;
+        }
+        else if(CurrScore > int.Parse(scoreGroup[1]))
+        {
+            MainPanel._Ins.ui_Target2.color = Color.green;
+        }
+        else if(CurrScore > int.Parse(scoreGroup[2]))
+        {
+            MainPanel._Ins.ui_Target3.color = Color.green;
+        }
+    }
+
 }

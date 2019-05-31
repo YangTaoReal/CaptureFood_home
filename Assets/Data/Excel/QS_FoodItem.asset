@@ -26,17 +26,17 @@ MonoBehaviour:
     foodstate: 0
     fat: 2
   - id: 10003
-    score: 10
+    score: 20
     movespeed: 5
     foodstate: 0
     fat: 2
   - id: 10004
-    score: 10
+    score: 20
     movespeed: 5
     foodstate: 0
     fat: 2
   - id: 10005
-    score: 10
+    score: 30
     movespeed: 5
     foodstate: 0
     fat: 2

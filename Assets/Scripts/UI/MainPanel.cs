@@ -8,17 +8,27 @@ public class MainPanel : BasePanel
 {
     public Text ui_ShowText;
     public Text ui_Title;
+    public Text ui_CurrScore;
+    public Text ui_Target1;
+    public Text ui_Target2;
+    public Text ui_Target3;
+
     public Transform ui_TargetTR;
+    public Transform ui_ScoreTR;
     public Transform ui_ConveyorTR;
     public FoodCtrl foodCtrl;
 
     public Button ui_PauseBtn;
     public Button ui_TestBtn;
 
+   
+
     private int capturedWrongCount;     // 抓住错误食物的次数
     private QS_LevelDataData currLevelData;
     private List<int> targetIDList = new List<int>();
     private Dictionary<int, TargetItem> targetItemDic = new Dictionary<int, TargetItem>();
+    private int timerID;    // 时间模式倒计时
+
 
 
     private static MainPanel _ins;
@@ -63,7 +73,7 @@ public class MainPanel : BasePanel
     {
         base.Show();
         currLevelData = GameCtrl._Ins.GetCurrLevelData();
-        foodCtrl.StartGame();
+
         if (GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
         {
             ui_Title.text = "剩余盘数";
@@ -74,15 +84,46 @@ public class MainPanel : BasePanel
         else
         {
             ui_Title.text = "剩余时间";
-            //ui_ShowText.text = 
-            //TimerUtil.SetTimeOut(1f,);
+            string timeLevelData = GameCtrl._Ins.GetDisperseData("10004");
+            var allDatas = timeLevelData.Split('|');
+            GameCtrl._Ins.timeSpeedGroup = allDatas[0].Split(',');
+            GameCtrl._Ins.timer = int.Parse(allDatas[1]);
+            GameCtrl._Ins.cookBookGroup = allDatas[2].Split('#');
+            GameCtrl._Ins.scoreGroup = allDatas[3].Split(',');
+
+            TransformTimeFormat(GameCtrl._Ins.timer);
+            ui_ScoreTR.gameObject.SetActive(true);
+            ui_Target1.text = GameCtrl._Ins.scoreGroup[0];
+            ui_Target2.text = GameCtrl._Ins.scoreGroup[1];
+            ui_Target3.text = GameCtrl._Ins.scoreGroup[2];
+
+            Debug.Log(timeLevelData);
         }
+        foodCtrl.StartGame();
     }
 
-    private string TransformTimeFormat(int time)
+    private void TransformTimeFormat(int time)
     {
         //DateTime.
-        return "";
+        TimerUtil.RemoveTimeOutWithCallBack(timerID);
+        TimerUtil.RemoveTimeOut(timerID);
+
+        TimeSpan ts = new TimeSpan(0,0,time);
+        TimeSpan timer = new TimeSpan(0,0,1);
+        timerID = TimerUtil.SetTimeOut(1f,()=> {
+
+            ts = ts.Subtract(timer);
+            ui_ShowText.text = ts.ToString(@"mm\:ss");
+            //Debug.Log($"当前倒计时:{ts.ToString(@"mm\:ss")}");
+            if (ts.TotalSeconds <= 0)
+            {
+                TimerUtil.RemoveTimeOutWithCallBack(timerID);
+                TimerUtil.RemoveTimeOut(timerID);
+                Debug.Log($"倒计时结束，游戏结束");
+                GameCtrl._Ins.EC.OnGameOver(GameCtrl._Ins.CurrPattern, false);
+            }
+        },-1);
+
     }
 
     private void RefreshTargetItem(string target)
@@ -103,36 +144,46 @@ public class MainPanel : BasePanel
     private void OnRefreshDishNum(int num)
     {
         //Debug.Log($"到达终点或者被抓住的盘子数量:{num},剩余盘子数量:{currLevelData.Totalnum - num}");
-        ui_ShowText.text = currLevelData.Totalnum - num + "";
+        if(GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
+            ui_ShowText.text = currLevelData.Totalnum - num + "";
     }
 
     private void OnCheckCapturedFood(FoodItem item)
     {
-        bool isCapturedWrong = true;    // 是否没有抓到正确的food  连续三次没有抓中的话  触发惩罚机制
-        for (int i = 0; i < targetIDList.Count; i++)
+        if (GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
         {
-            if (item.foodInfo.ID == targetIDList[i])
+            bool isCapturedWrong = true;    // 是否没有抓到正确的food  连续三次没有抓中的话  触发惩罚机制
+            for (int i = 0; i < targetIDList.Count; i++)
             {
-                RefreshTargetItem(targetIDList[i]);
-                isCapturedWrong = false;
-                break;
+                if (item.foodInfo.ID == targetIDList[i])
+                {
+                    RefreshTargetItem(targetIDList[i]);
+                    isCapturedWrong = false;
+                    break;
+                }
             }
-        }
-        if(isCapturedWrong == true)
-        {
-            capturedWrongCount++;
-            if(capturedWrongCount == 3)
+            if (isCapturedWrong == true)
             {
-                // 触发惩罚机制
-                Debug.Log($"连续抓错食物数量3次,触发惩罚机制");
-                TriggerPunishment();
+                capturedWrongCount++;
+                if (capturedWrongCount == 3)
+                {
+                    // 触发惩罚机制
+                    Debug.Log($"连续抓错食物数量3次,触发惩罚机制");
+                    TriggerPunishment();
+                    capturedWrongCount = 0;
+                }
+            }
+            else
+            {
+                // 每次抓对了就将错误次数清零 因为要求是连续三次抓错才触发惩罚
                 capturedWrongCount = 0;
             }
         }
         else
         {
-            // 每次抓对了就将错误次数清零 因为要求是连续三次抓错才触发惩罚
-            capturedWrongCount = 0;
+            GameCtrl._Ins.AddScore(item.foodInfo.Score);
+            ui_CurrScore.text = GameCtrl._Ins.CurrScore.ToString();
+
         }
     }
     #endregion

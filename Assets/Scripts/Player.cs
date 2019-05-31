@@ -36,7 +36,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
     {
         sizeData = handImg.rectTransform.sizeDelta;
         startFatValue = fatImg.rectTransform.sizeDelta.y;
-        Debug.Log($"出事肥胖程度:{startFatValue}");
+        //Debug.Log($"初始肥胖程度:{startFatValue}");
     }
 
     public void InitPlayer()
@@ -56,11 +56,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
 
     }
 
-    // Update is called once per frame
-    private void FixedUpdate()
-    {
-
-    }
+   
     void Update()
     {
         if (isPress && !isBacking && !isDraging)

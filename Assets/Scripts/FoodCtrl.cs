@@ -80,17 +80,27 @@ public class FoodCtrl : MonoBehaviour
 
     public QS_FoodItemData GetOneFoodData()
     {
-        if (foodDataIndex > foodDatas.Count - 1)
+        QS_FoodItemData food = null;
+        if (GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
         {
-            GameCtrl._Ins.IsFoodDataRunOut = true;
-            return null;
+            if (foodDataIndex > foodDatas.Count - 1)
+            {
+                GameCtrl._Ins.IsFoodDataRunOut = true;
+                return null;
+            }
+            food = foodDatas[foodDataIndex];
+            foodDataIndex++;
         }
-        QS_FoodItemData food = foodDatas[foodDataIndex];
-        foodDataIndex++;
+        else
+        {
+            // 随机生成一种食物
+            if (GameCtrl._Ins.IsGameOver == false)
+            {
+                int index = UnityEngine.Random.Range(0, foodDatas.Count);
+                food = foodDatas[index];
+            }
+        }
 
-        //food.foodID = Random.Range(1001,1006);
-        //food.moveSpeed = 3f;
-        //food.state = FoodState.Free;
         return food;
     }
 
@@ -124,8 +134,7 @@ public class FoodCtrl : MonoBehaviour
     public void StartGame()
     {
 
-        // 开始移动履带
-        StartBornConveyor();
+
 
         // 挑战模式的话 需要将tartget食物和普通的食物进行洗牌算法
         if (GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
@@ -133,22 +142,62 @@ public class FoodCtrl : MonoBehaviour
             // 将需要的数据填充进FoodDataList中，在洗乱
             targetList.Clear();
             RiffleFoodData();
-            StartBornFood();
-
 
         }
         else  // 时间模式
         {
-
+            // 随机食物数据
+            RandomFoodData();
         }
-        //currMapSpline = GameObject.FindWithTag("Map").transform.GetChild(0).GetComponent<CurvySpline>();
-        //Debug.Log("CurrMapSpline = {CurrMapSpline}");
-        //CreateOneFood(GetOneFoodData());
-        //TimerUtil.SetTimeOut(1f,()=> {
-        //    CreateOneFood(GetOneFoodData());
-        //},-1);
+        // 开始移动履带
+        StartBornConveyor();
+        StartBornFood();
 
-        //StartCoroutine(StartBornFood());
+    }
+
+    /// <summary>
+    /// 时间模式下  得到随机的食物数据
+    /// </summary>
+    private void RandomFoodData()
+    {
+        foodDatas.Clear();
+        //string[] datas = GameCtrl._Ins.cookBookGroup
+        for (int i = 0; i < GameCtrl._Ins.cookBookGroup.Length; i++)
+        {
+            string[] datas = GameCtrl._Ins.cookBookGroup[i].Split(',');
+            RandomFoodToFoodList(int.Parse(datas[0]), int.Parse(datas[1]));
+        }
+        //for (int i = 0; i < foodDatas.Count; i++)
+        //{
+        //    Debug.Log($"随机完毕，foodDatas[{i}] = {foodDatas[i].ID}");
+        //}
+    }
+
+    private void RandomFoodToFoodList(int score,int num)
+    {
+        List<QS_FoodItemData> list = new List<QS_FoodItemData>();
+        for (int i = 0; i < GameCtrl._Ins.QS_FoodItemDatas.dataArray.Length; i++)
+        {
+            if(GameCtrl._Ins.QS_FoodItemDatas.dataArray[i].Score == score)
+            {
+                list.Add(GameCtrl._Ins.QS_FoodItemDatas.dataArray[i]);
+            }
+        }
+        // 从里面随机选择 num个数据放进foodDataList
+        if(num > list.Count)
+        {
+            Debug.LogError("配置表数据有问题，num > List.Count了");
+            return;
+        }
+        System.Random random = new System.Random();
+        for (int i = 0; i < num; i++)
+        {
+            int index = random.Next(0, list.Count);
+            foodDatas.Add(list[index]);
+            list.RemoveAt(index);
+        }
+
+
     }
 
     /// <summary>
