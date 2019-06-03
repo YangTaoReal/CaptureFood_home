@@ -24,11 +24,13 @@ public class MainPanel : BasePanel
    
 
     private int capturedWrongCount;     // 抓住错误食物的次数
+    private int capturedRightCount;     // 抓正确食物的次数
+    private int lastFoodId;             // 上一个食物的id 以此来判断是否和上一次食物一样
     private QS_LevelDataData currLevelData;
     private List<int> targetIDList = new List<int>();
     private Dictionary<int, TargetItem> targetItemDic = new Dictionary<int, TargetItem>();
-    private int timerID;    // 时间模式倒计时
-
+    private int timerID;    // 时间模式倒计时id
+    private bool isTimePause;
 
 
     private static MainPanel _ins;
@@ -71,9 +73,8 @@ public class MainPanel : BasePanel
 
     public void BeginGame()
     {
-        base.Show();
         currLevelData = GameCtrl._Ins.GetCurrLevelData();
-
+        ui_ScoreTR.gameObject.SetActive(false);
         if (GameCtrl._Ins.CurrPattern == GamePattern.Challenge)
         {
             ui_Title.text = "剩余盘数";
@@ -84,6 +85,7 @@ public class MainPanel : BasePanel
         else
         {
             ui_Title.text = "剩余时间";
+            ui_ShowText.text = "";
             string timeLevelData = GameCtrl._Ins.GetDisperseData("10004");
             var allDatas = timeLevelData.Split('|');
             GameCtrl._Ins.timeSpeedGroup = allDatas[0].Split(',');
@@ -91,15 +93,16 @@ public class MainPanel : BasePanel
             GameCtrl._Ins.cookBookGroup = allDatas[2].Split('#');
             GameCtrl._Ins.scoreGroup = allDatas[3].Split(',');
 
-            TransformTimeFormat(GameCtrl._Ins.timer);
+            TransformTimeFormat(500);  // GameCtrl._Ins.timer
             ui_ScoreTR.gameObject.SetActive(true);
             ui_Target1.text = GameCtrl._Ins.scoreGroup[0];
             ui_Target2.text = GameCtrl._Ins.scoreGroup[1];
             ui_Target3.text = GameCtrl._Ins.scoreGroup[2];
 
-            Debug.Log(timeLevelData);
+            //Debug.Log(timeLevelData);
         }
         foodCtrl.StartGame();
+        base.Show();
     }
 
     private void TransformTimeFormat(int time)
@@ -111,7 +114,8 @@ public class MainPanel : BasePanel
         TimeSpan ts = new TimeSpan(0,0,time);
         TimeSpan timer = new TimeSpan(0,0,1);
         timerID = TimerUtil.SetTimeOut(1f,()=> {
-
+            if (isTimePause)
+                return;
             ts = ts.Subtract(timer);
             ui_ShowText.text = ts.ToString(@"mm\:ss");
             //Debug.Log($"当前倒计时:{ts.ToString(@"mm\:ss")}");
@@ -183,7 +187,28 @@ public class MainPanel : BasePanel
         {
             GameCtrl._Ins.AddScore(item.foodInfo.Score);
             ui_CurrScore.text = GameCtrl._Ins.CurrScore.ToString();
-
+            if (lastFoodId == 0)
+            {
+                lastFoodId = item.foodInfo.ID;
+                capturedRightCount++;
+            }
+            else
+            {
+                if (lastFoodId == item.foodInfo.ID)
+                    capturedRightCount++;
+                else
+                {
+                    capturedRightCount = 1;
+                    lastFoodId = item.foodInfo.ID;
+                }
+            }
+            //Debug.Log($"抓住同一食物的次数:{capturedRightCount}");
+            if(capturedRightCount == int.Parse(GameCtrl._Ins.GetDisperseData("10003")))
+            {
+                Debug.Log($"连续{capturedRightCount}次抓住同一食物，触发奖励效果");
+                TriggerAward();
+                capturedRightCount = 0;
+            }
         }
     }
     #endregion
@@ -234,20 +259,21 @@ public class MainPanel : BasePanel
             {
                 GameCtrl._Ins.IsPause = true;
                 Time.timeScale = 0;
-                ui_PauseBtn.GetComponentInChildren<Text>().text = "取消";
+                //ui_PauseBtn.GetComponentInChildren<Text>().text = "取消";
             }
             else
             {
                 GameCtrl._Ins.IsPause = false;
                 Time.timeScale = 1;
-                ui_PauseBtn.GetComponentInChildren<Text>().text = "暂停";
+                //ui_PauseBtn.GetComponentInChildren<Text>().text = "暂停";
             }
             //Debug.Log($"是否暂停:{GameCtrl._Ins.IsPause}");
         });
 
         ui_TestBtn.onClick.AddListener(()=> {
 
-            TriggerPunishment();
+            //TriggerPunishment();
+            TriggerAward();
         });
     }
 
@@ -261,5 +287,15 @@ public class MainPanel : BasePanel
             foodCtrl.PunishmentOver();
         });
 
+    }
+
+    private void TriggerAward()
+    {
+        isTimePause = true;
+        foodCtrl.TriggerAward(() =>
+        {
+            foodCtrl.AwardOver();
+            isTimePause = false;
+        });
     }
 }

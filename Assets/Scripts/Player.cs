@@ -86,7 +86,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
             //return;
         var size = handImg.rectTransform.sizeDelta;
         handImg.rectTransform.sizeDelta = new Vector2(size.x, size.y +  Time.deltaTime * upSpeed);
-
+        //Debug.Log($"当前手的长度:{handImg.rectTransform.sizeDelta.y}");
     }
 
     public void ComeBack(Action CallBack = null)
@@ -127,7 +127,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
             ComeBack(()=> {
 
                 item.ResetItem();
-                Debug.Log($"被抓住了,dishArriveNum++");
+                //Debug.Log($"被抓住了,dishArriveNum++");
                 GameCtrl._Ins.DishArriveNum++;
                 GameCtrl._Ins.EC.OnRefreshCurrDishNum?.Invoke(GameCtrl._Ins.DishArriveNum);
                 GameCtrl._Ins.EC.OnCheckCaptureFood?.Invoke(item);
@@ -207,7 +207,7 @@ public class Player : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandl
                 ChangeFat(float.Parse(oneFat[2]));
             }
         }
-        Debug.Log($"当前肥胖值:{curFatValue}");
+        //Debug.Log($"当前肥胖值:{curFatValue}");
     }
 
     #endregion

@@ -432,4 +432,95 @@ public class FoodCtrl : MonoBehaviour
                 conveyorList[i].splineMove.Resume();
         }
     }
+
+    public void AwardOver()
+    {
+        StartBornFood();
+        StartBornConveyor();
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            if (foodList[i].isUsing)
+                foodList[i].splineMove.Resume();
+        }
+        for (int i = 0; i < conveyorList.Count; i++)
+        {
+            if (conveyorList[i].isUsing)
+                conveyorList[i].splineMove.Resume();
+        }
+    }
+
+    public void TriggerAward(Action CallBack = null)
+    {
+        StopBornFood();
+        StopBornConveyor();
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            if (foodList[i].isUsing)
+                foodList[i].splineMove.Pause();
+        }
+        for (int i = 0; i < conveyorList.Count; i++)
+        {
+            conveyorList[i].splineMove.Pause();
+        }
+        List<FoodItem> awardList = new List<FoodItem>();
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            if (!foodList[i].isUsing)
+                continue;
+            if (GameCtrl._Ins.CheckIfInView(foodList[i].transform.position))
+            {
+                foodList[i].GetComponent<Image>().color = Color.red;
+                awardList.Add(foodList[i]);
+            }
+        }
+        if (awardList.Count == 0)
+        {
+            Debug.Log($"punishList.Count = 0,直接return了");
+            CallBack?.Invoke();
+            return;
+        }
+        Vector2 pos1 = Vector2.zero;
+        Vector2 screen = GameCtrl._Ins.UIcamera.WorldToScreenPoint(Player._Ins.transform.position);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, screen,
+            GameCtrl._Ins.UIcamera, out pos1);
+        for (int i = 0; i < awardList.Count; i++)
+        {
+            awardList[i].boxcollider.enabled = false;
+
+        }
+
+        TimerUtil.SetTimeOut(0.5f, () => {
+
+            for (int i = 0; i < awardList.Count; i++)
+            {
+                var item = awardList[i];
+
+                int index = i;
+                TimerUtil.SetTimeOut(i * 0.2f, () => {
+                    if (index != awardList.Count - 1)
+                    {
+                        item.transform.DOLocalMove(pos1, 0.5f).OnComplete(() => {
+
+                            item.ResetItem();
+                            item.GetComponent<Image>().color = Color.white;
+                            GameCtrl._Ins.EC.OnCheckCaptureFood?.Invoke(item);
+                        });
+                    }
+                    else
+                    {
+                        // 最后一个加上回调
+                        item.transform.DOLocalMove(pos1, 0.5f).OnComplete(() => {
+
+                            item.ResetItem();
+                            item.GetComponent<Image>().color = Color.white;
+                            GameCtrl._Ins.EC.OnCheckCaptureFood?.Invoke(item);
+                            CallBack?.Invoke();
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+
 }

@@ -380,18 +380,19 @@ public class GameCtrl : MonoBehaviour
     public void AddScore(int score)
     {
         CurrScore += score;
-        if(CurrScore > int.Parse(scoreGroup[0]))
-        {
-            MainPanel._Ins.ui_Target1.color = Color.green;
-        }
-        else if(CurrScore > int.Parse(scoreGroup[1]))
-        {
-            MainPanel._Ins.ui_Target2.color = Color.green;
-        }
-        else if(CurrScore > int.Parse(scoreGroup[2]))
+        if(CurrScore > int.Parse(scoreGroup[2]))
         {
             MainPanel._Ins.ui_Target3.color = Color.green;
         }
+        else if (CurrScore > int.Parse(scoreGroup[1]))
+        {
+            MainPanel._Ins.ui_Target2.color = Color.green;
+        }
+        else if (CurrScore > int.Parse(scoreGroup[0]))
+        {
+            MainPanel._Ins.ui_Target1.color = Color.green;
+        }
+
     }
 
 }
