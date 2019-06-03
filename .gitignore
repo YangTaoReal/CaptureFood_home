@@ -6,7 +6,6 @@ Unity.TextMeshPro.csproj
 Unity.TextMeshPro.Editor.csproj
 Temp/
 Logs/
-Library/
 CaptureFood.csproj
 .vs
 Assembly-CSharp-Editor.csproj
