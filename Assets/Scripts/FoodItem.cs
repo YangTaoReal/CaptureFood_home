@@ -62,7 +62,7 @@ public class FoodItem : MonoBehaviour
         gameObject.SetActive(true);
         splineMove.enabled = true;
         boxcollider.enabled = true;
-        splineMove.speed = GameCtrl._Ins.GetCurrLevelData().Movespeed;   //data.Movespeed;
+        splineMove.speed = GameCtrl._Ins.MoveSpeed;   //data.Movespeed;
         splineMove.StartMove();
     }
 
