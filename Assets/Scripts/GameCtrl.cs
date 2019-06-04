@@ -27,6 +27,12 @@ public class GameCtrl : MonoBehaviour
     public QS_DisperseConfig QS_DisperseDatas;
 
 
+    private float _moveSpeed;
+    public float MoveSpeed
+    {
+        get { return _moveSpeed; }
+        set { _moveSpeed = value; }
+    }
 
     private int _dishArriveNum;
     public int DishArriveNum
@@ -168,6 +174,7 @@ public class GameCtrl : MonoBehaviour
         {
             if (CurrLevelData != null)
             {
+                MoveSpeed = CurrLevelData.Movespeed;
                 CreatePathBySpriteShape();
                 MainPanel._Ins.BeginGame();
                 Player._Ins.InitPlayer();
@@ -182,6 +189,7 @@ public class GameCtrl : MonoBehaviour
         else
         {
             // 时间模式
+            MoveSpeed = float.Parse(timeSpeedGroup[0]);
             CreatePathBySpriteShape();
             MainPanel._Ins.BeginGame();
             Player._Ins.InitPlayer();
@@ -383,16 +391,29 @@ public class GameCtrl : MonoBehaviour
         if(CurrScore > int.Parse(scoreGroup[2]))
         {
             MainPanel._Ins.ui_Target3.color = Color.green;
+            MainPanel._Ins.foodCtrl.ChangeFoodMoveSpeed(float.Parse(timeSpeedGroup[2]));
         }
         else if (CurrScore > int.Parse(scoreGroup[1]))
         {
             MainPanel._Ins.ui_Target2.color = Color.green;
+            MainPanel._Ins.foodCtrl.ChangeFoodMoveSpeed(float.Parse(timeSpeedGroup[1]));
         }
         else if (CurrScore > int.Parse(scoreGroup[0]))
         {
             MainPanel._Ins.ui_Target1.color = Color.green;
+            MainPanel._Ins.foodCtrl.ChangeFoodMoveSpeed(float.Parse(timeSpeedGroup[0]));
         }
 
+    }
+
+    public void ReadTimePatternData(string id)
+    {
+        string timeLevelData = GameCtrl._Ins.GetDisperseData(id);
+        var allDatas = timeLevelData.Split('|');
+        timeSpeedGroup = allDatas[0].Split(',');
+        timer = int.Parse(allDatas[1]);
+        cookBookGroup = allDatas[2].Split('#');
+        scoreGroup = allDatas[3].Split(',');
     }
 
 }

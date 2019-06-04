@@ -45,13 +45,13 @@ public class StartPanel : BasePanel
     {
         ui_ChallengeBtn.onClick.AddListener(()=> {
             Debug.Log("开始挑战模式");
-            GameCtrl._Ins.StartGame(GamePattern.Challenge);
+            SelectPanel._Ins.ShowPanel(GamePattern.Challenge);
             Close();
         });
 
         ui_TimeBtn.onClick.AddListener(()=> {
 
-            GameCtrl._Ins.StartGame(GamePattern.Time);
+            SelectPanel._Ins.ShowPanel(GamePattern.Time);
             Close();
         });
     }

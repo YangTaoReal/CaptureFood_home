@@ -148,6 +148,8 @@ public class FoodCtrl : MonoBehaviour
         {
             // 随机食物数据
             RandomFoodData();
+            // 速度
+
         }
         // 开始移动履带
         StartBornConveyor();
@@ -522,5 +524,18 @@ public class FoodCtrl : MonoBehaviour
         });
     }
 
+    public void ChangeFoodMoveSpeed(float speed)
+    {
+        //Debug.Log($"改变了食物的移动速度:{speed}");
+        GameCtrl._Ins.MoveSpeed = speed;
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            foodList[i].splineMove.ChangeSpeed(speed);
+        }
+        for (int i = 0; i < conveyorList.Count; i++)
+        {
+            conveyorList[i].splineMove.ChangeSpeed(speed);
+        }
+    }
 
 }

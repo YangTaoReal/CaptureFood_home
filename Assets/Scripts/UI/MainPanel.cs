@@ -86,14 +86,9 @@ public class MainPanel : BasePanel
         {
             ui_Title.text = "剩余时间";
             ui_ShowText.text = "";
-            string timeLevelData = GameCtrl._Ins.GetDisperseData("10004");
-            var allDatas = timeLevelData.Split('|');
-            GameCtrl._Ins.timeSpeedGroup = allDatas[0].Split(',');
-            GameCtrl._Ins.timer = int.Parse(allDatas[1]);
-            GameCtrl._Ins.cookBookGroup = allDatas[2].Split('#');
-            GameCtrl._Ins.scoreGroup = allDatas[3].Split(',');
 
-            TransformTimeFormat(500);  // GameCtrl._Ins.timer
+
+            TransformTimeFormat(GameCtrl._Ins.timer);  // GameCtrl._Ins.timer
             ui_ScoreTR.gameObject.SetActive(true);
             ui_Target1.text = GameCtrl._Ins.scoreGroup[0];
             ui_Target2.text = GameCtrl._Ins.scoreGroup[1];

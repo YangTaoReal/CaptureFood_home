@@ -29,7 +29,7 @@ public class ConveyorItem : MonoBehaviour
     {
         isUsing = true;
         gameObject.SetActive(true);
-        splineMove.speed = GameCtrl._Ins.GetCurrLevelData().Movespeed;
+        splineMove.speed = GameCtrl._Ins.MoveSpeed;
         splineMove.StartMove();
     }
 
