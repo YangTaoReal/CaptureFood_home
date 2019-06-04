@@ -11,3 +11,6 @@ CaptureFood.csproj
 Assembly-CSharp-Editor.csproj
 Assembly-CSharp.csproj
 CaptureFood.Editor.csproj
+Library/
+obj/
+foodmania.sln
