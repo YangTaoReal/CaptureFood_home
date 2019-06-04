@@ -13,11 +13,4 @@ Assembly-CSharp.csproj
 CaptureFood.Editor.csproj
 Library/
 obj/
-Unity.2D.Common.Editor.csproj
-Unity.2D.Common.Runtime.csproj
-Unity.InternalAPIEngineBridge.001.csproj
-Unity.InternalAPIEditorBridge.001.csproj
-Unity.2D.SpriteShape.Runtime.csproj
-Unity.2D.SpriteShape.Editor.csproj
-packages.config
-app.config
+foodmania.sln
