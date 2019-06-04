@@ -19,7 +19,7 @@ MonoBehaviour:
     totalnum: 44
     target: 10001,1|10002,1|10003,1
     pool: 10001,8|10002,8|10003,8|10004,10|10005,10
-    movespeed: 5
+    movespeed: 3
     foodrate: 1
     conveyorrate: 0.2
     map: Maps/Map02
@@ -27,15 +27,63 @@ MonoBehaviour:
     totalnum: 25
     target: 10005,2|10004,2|10003,2
     pool: 10001,5|10002,5|10003,5|10004,5|10005,5
-    movespeed: 3
+    movespeed: 4
     foodrate: 0.8
     conveyorrate: 0.3
     map: Maps/Map02
-  - id: 0
-    totalnum: 0
-    target: 
-    pool: 
-    movespeed: 0
-    foodrate: 0
-    conveyorrate: 0
-    map: 
+  - id: 10002
+    totalnum: 50
+    target: 10001,3|10003,3|10004,3
+    pool: 10001,10|10002,10|10003,10|10004,10|10005,10
+    movespeed: 5
+    foodrate: 0.5
+    conveyorrate: 0.4
+    map: Maps/Map02
+  - id: 20000
+    totalnum: 36
+    target: 10002,1
+    pool: 10001,6|10002,15|10003,4|10004,6|10005,5
+    movespeed: 4
+    foodrate: 2
+    conveyorrate: 0.5
+    map: Maps/Map02
+  - id: 20001
+    totalnum: 48
+    target: 10004,2|10005,2
+    pool: 10001,8|10002,8|10003,8|10004,9|10005,15
+    movespeed: 5
+    foodrate: 1
+    conveyorrate: 0.6
+    map: Maps/Map02
+  - id: 20002
+    totalnum: 60
+    target: 10001,3|10003,3|10004,3
+    pool: 10001,12|10002,12|10003,12|10004,12|10005,12
+    movespeed: 6
+    foodrate: 0.6
+    conveyorrate: 0.7
+    map: Maps/Map02
+  - id: 30000
+    totalnum: 40
+    target: 10003,1
+    pool: 10001,8|10002,8|10003,12|10004,6|10005,6
+    movespeed: 5
+    foodrate: 1.2
+    conveyorrate: 0.8
+    map: Maps/Map02
+  - id: 30001
+    totalnum: 60
+    target: 10001,2|10004,2
+    pool: 10001,12|10002,12|10003,12|10004,12|10005,12
+    movespeed: 8
+    foodrate: 0.6
+    conveyorrate: 0.9
+    map: Maps/Map02
+  - id: 30002
+    totalnum: 80
+    target: 10001,3|10003,3|10005,3
+    pool: 10001,16|10002,16|10003,16|10004,16|10005,16
+    movespeed: 10
+    foodrate: 0.3
+    conveyorrate: 1
+    map: Maps/Map02

@@ -76,16 +76,19 @@ public class SelectPanel : BasePanel
             GameCtrl._Ins.StartGame(GamePattern.Time);
             Close();
         });
+
         ui_ChinaBtn.onClick.AddListener(()=> {
 
             GameCtrl._Ins.StartGame(GamePattern.Challenge);
             Close();
         });
+
         ui_JapanBtn.onClick.AddListener(() => {
 
             GameCtrl._Ins.StartGame(GamePattern.Challenge);
             Close();
         });
+
         ui_FranceBtn.onClick.AddListener(() => {
 
             GameCtrl._Ins.StartGame(GamePattern.Challenge);
